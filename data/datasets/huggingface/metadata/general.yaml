@@ -1,0 +1,26 @@
+annotations_creators:
+- expert-generated
+language:
+- pl
+language_creators: []
+license:
+- cc-by-sa-4.0
+multilinguality:
+- monolingual
+pretty_name: 'PUGG: KBQA, MRC, IR dataset for Polish'
+size_categories:
+- 1K<n<10K
+- 10K<n<100K
+source_datasets:
+- original
+tags:
+- knowledge graph
+- KBQA
+- wikipedia
+- wikidata
+task_categories:
+- question-answering
+- text-retrieval
+task_ids:
+- extractive-qa
+- document-retrieval

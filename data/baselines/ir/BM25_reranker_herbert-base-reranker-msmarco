@@ -1,0 +1,4 @@
+Model name: clarin-knext/herbert-base-reranker-msmarco
+NDCG: {'NDCG@1': 0.49019, 'NDCG@3': 0.60093, 'NDCG@5': 0.62287, 'NDCG@10': 0.6376, 'NDCG@100': 0.64569, 'NDCG@1000': 0.64569}
+Recall: {'Recall@1': 0.49019, 'Recall@3': 0.67798, 'Recall@5': 0.73119, 'Recall@10': 0.77621, 'Recall@100': 0.80979, 'Recall@1000': 0.80979}
+MRR: {'MRR@1': 0.49019, 'MRR@3': 0.57423, 'MRR@5': 0.58642, 'MRR@10': 0.5926, 'MRR@100': 0.59467, 'MRR@1000': 0.59467}

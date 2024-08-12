@@ -1,0 +1,20 @@
+annotations_creators:
+- expert-generated
+language:
+- pl
+language_creators: []
+license:
+- cc-by-sa-4.0
+multilinguality:
+- monolingual
+pretty_name: 'PUGG: MRC dataset for Polish'
+size_categories:
+- 1K<n<10K
+source_datasets:
+- original
+tags:
+- wikipedia
+task_categories:
+- question-answering
+task_ids:
+- extractive-qa

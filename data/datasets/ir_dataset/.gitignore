@@ -1,0 +1,5 @@
+/qrels
+all_passages.jsonl
+corpus_full.jsonl
+corpus_small.jsonl
+queries.jsonl

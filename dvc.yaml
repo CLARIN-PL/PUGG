@@ -1,0 +1,809 @@
+stages:
+  extract_prefixes:
+    foreach:
+      - czywiesz
+      - poquad
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction.py --dataset ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_prefix_extraction.py
+        - gqqd/pipeline/prefix_extractors.py
+        - data/datasets/external/${item}
+      outs:
+        - data/datasets/suggestion_dataset/prefixes/${item}.json
+
+  extract_prefixes_ntokens:
+    foreach:
+      - dataset: czywiesz
+        n: 1
+      - dataset: czywiesz
+        n: 2
+      - dataset: czywiesz
+        n: 3
+      - dataset: poquad
+        n: 1
+      - dataset: poquad
+        n: 2
+      - dataset: poquad
+        n: 3
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py 
+        --dataset ${item.dataset} --n ${item.n}
+      deps:
+        - gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+        - gqqd/pipeline/prefix_extractors.py
+        - data/datasets/external/${item.dataset}
+      outs:
+        - data/datasets/suggestion_dataset/prefixes/${item.dataset}_${item.n}t.json
+
+  acquire_suggestions:
+    foreach:
+      - czywiesz
+      - poquad
+      - czywiesz_1t
+      - czywiesz_2t
+      - czywiesz_3t
+      - poquad_1t
+      - poquad_2t
+      - poquad_3t
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+        --dataset ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_suggestion_acquisition.py
+        - gqqd/api/suggestion_client.py
+        - data/datasets/suggestion_dataset/prefixes/${item}.json
+      outs:
+        - data/datasets/suggestion_dataset/suggestions/${item}.json
+        - data/datasets/suggestion_dataset/suggestions/${item}.json_log
+
+  extract_prefixes_ntokens_for_annotation:
+    foreach:
+      - dataset: czywiesz
+        n: 1
+      - dataset: poquad
+        n: 1
+      - dataset: czywiesz
+        n: 2
+      - dataset: poquad
+        n: 2
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+        --dataset ${item.dataset} --n ${item.n}
+      deps:
+        - gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+        - gqqd/pipeline/prefix_extractors.py
+        - data/datasets/external/${item.dataset}
+      outs:
+        - data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/${item.dataset}_${item.n}t.json
+
+  prefix_2tokens_reduction:
+    foreach:
+      - dataset: czywiesz
+        n: 2
+      - dataset: poquad
+        n: 2
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_ntokens_reduction.py
+        --dataset ${item.dataset} --n ${item.n}
+      deps:
+        - gqqd/data/scripts/run_prefix_ntokens_reduction.py
+        - data/datasets/suggestion_dataset/filtering/correct_prefixes/annotated/${item.dataset}_1t.json
+        - data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/${item.dataset}_2t.json
+      outs:
+        - data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/${item.dataset}_${item.n}t_reduced.json
+
+  acquire_context:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_context_acquisition.py
+    deps:
+      - gqqd/pipeline/scripts/run_context_acquisition.py
+      - gqqd/api/wikipedia_content_client.py
+      - gqqd/data/loaders.py
+      - data/datasets/suggestion_dataset/search_results/db.json
+    outs:
+      - data/datasets/suggestion_dataset/wiki_content/db.json
+
+  wiki_context_fix:
+    cmd: >-
+      PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wiki_context_fix.py
+    deps:
+      - data/datasets/suggestion_dataset/wiki_content/db.json
+      - gqqd/pipeline/scripts/run_wiki_context_fix.py
+    outs:
+      - data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+
+  construct_dataset_for_annotation:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_construction_dataset_for_annotation.py
+    deps:
+      - gqqd/pipeline/scripts/run_construction_dataset_for_annotation.py
+      - gqqd/data/loaders.py
+      - gqqd/pipeline/output/data.py
+      - gqqd/pipeline/question_filtering.py
+      - gqqd/pipeline/passage_retrieval.py
+      - data/datasets/suggestion_dataset/filtering/correct_prefixes/annotated
+      - data/datasets/suggestion_dataset/suggestions
+      - data/datasets/suggestion_dataset/search_results/db.json
+      - data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+    params:
+      - construct_dataset_for_annotation
+    outs:
+      - data/datasets/suggestion_dataset/results/output/qa_for_annotation.json
+
+  rerank_for_annotation:
+    cmd: bash docker/reranker/run_reranker.sh
+    deps:
+      - data/datasets/suggestion_dataset/results/output/qa_for_annotation.json
+      - tools/reranker/rerank.py
+      - docker/reranker/Dockerfile
+      - docker/reranker/run_reranker.sh
+    outs:
+      - data/datasets/suggestion_dataset/results/annotated/qa_reranked.json
+
+  chatgpt_responses:
+    foreach:
+      - 0
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_chatgpt_responses.py --iteration
+        ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_chatgpt_responses.py
+        - data/datasets/suggestion_dataset/results/annotated/qa_reranked.json
+        - gqqd/auto_annotation/quote_chatgpt_config.yaml
+      outs:
+        - data/datasets/suggestion_dataset/results/annotated/gpt_responses_iteration_${item}.json
+
+  chatgpt_auto_annotate:
+    foreach:
+      - 0
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_chatgpt_auto_annotation.py
+        --iteration ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_chatgpt_auto_annotation.py
+        - data/datasets/suggestion_dataset/results/annotated/gpt_responses_iteration_${item}.json
+        - gqqd/auto_annotation/chatgpt_annotator.py
+      outs:
+        - data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_${item}.json
+
+  inforex_preparation:
+    foreach:
+      - 0
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_inforex_preparation.py --iteration
+        ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_inforex_preparation.py
+        - data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_${item}.json
+      outs:
+        - data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+
+  inforex_output_verification_preparation:
+    foreach:
+      - inforex_iteration: 0
+        inforex_id: 809
+        annotator_1: 0.30
+        annotator_2: 0.70
+      - inforex_iteration: 1
+        inforex_id: 904
+        annotator_1: 0.50
+        annotator_2: 0.50
+    do:
+      cmd: >- 
+        PYTHONPATH=. python3 gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py 
+        --inforex-iteration ${item.inforex_iteration}
+        --annotator ${item.annotator_1}
+        --annotator ${item.annotator_2}
+      deps:
+        - gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py
+        - data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+        - data/datasets/suggestion_dataset/results/annotated/inforex/inforex_export_${item.inforex_id}
+        - data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+        - data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+      outs:
+        - data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/${item.inforex_iteration}
+
+  prepare_verified_data_for_entity_linking:
+    foreach:
+      - 0
+      - 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+        --inforex-output-iteration ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+        - data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/${item}_verified
+      outs:
+        - data/datasets/suggestion_dataset/entity_linking/input/${item}/input.json
+
+  retrieve_vital_article_ids:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_entity_retrieving.py
+    deps:
+      - sqqd/pipeline/scripts/run_entity_retrieving.py
+      - data/datasets/sparql_dataset/vital_articles/vital_articles_level_4.csv
+    outs:
+      - data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+
+  extract_properties_from_vital_articles:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_properties_retrieving.py ; PYTHONPATH=.
+      python3 sqqd/pipeline/scripts/run_properties_label_retrieving.py
+    deps:
+      - sqqd/pipeline/scripts/run_properties_retrieving.py
+      - sqqd/pipeline/scripts/run_properties_label_retrieving.py
+      - data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+    outs:
+      - data/datasets/sparql_dataset/properties/all_properties.json
+      - data/datasets/sparql_dataset/properties/property_labels.json
+
+  construct_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_question_retrieving.py
+    deps:
+      - sqqd/pipeline/scripts/run_sparql_question_retrieving.py
+      - data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+    outs:
+      - data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_two_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_mixed_template.json
+
+  merge_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_question_merge.py
+    deps:
+      - sqqd/pipeline/scripts/run_sparql_question_merge.py
+      - data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_two_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template_with_mask.json
+      - data/datasets/sparql_dataset/sparql_questions/results_for_mixed_template.json
+    outs:
+      - data/datasets/sparql_dataset/sparql_questions/db.json
+
+  inflect_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_chatgpt_inflection.py
+    deps:
+      - sqqd/pipeline/scripts/run_chatgpt_inflection.py
+      - sqqd/api/chatgpt_rephrasing/chatgpt_config_for_inflection.yaml
+      - data/datasets/sparql_dataset/sparql_questions/db.json
+    outs:
+      - data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+
+  paraphrase_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_chatgpt_paraphrasing.py
+    deps:
+      - sqqd/pipeline/scripts/run_chatgpt_paraphrasing.py
+      - sqqd/api/chatgpt_rephrasing/chatgpt_config_for_paraphrasing.yaml
+      - data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+    outs:
+      - data/datasets/sparql_dataset/chatgpt_paraphrase_results/db.json
+
+  construct_sparql_dataset:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_dataset_construction.py
+    deps:
+      - sqqd/pipeline/scripts/run_sparql_dataset_construction.py
+      - data/datasets/sparql_dataset/sparql_questions/db.json
+      - data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+      - data/datasets/sparql_dataset/chatgpt_paraphrase_results/db.json
+    outs:
+      - data/datasets/sparql_dataset/output/results_db.json
+
+  prepare_mrc_dataset:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_mrc_dataset.py
+    deps:
+      - data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+    outs:
+      - data/datasets/mrc_dataset/mrc_dataset.json
+      - data/datasets/final/mrc/train.json
+      - data/datasets/final/mrc/test.json
+
+  construct_sparql_dataset_for_annotation:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_annotation_preparation.py
+    deps:
+      - sqqd/pipeline/scripts/run_annotation_preparation.py
+      - data/datasets/sparql_dataset/output/results_db.json
+    outs:
+        - data/datasets/sparql_dataset/annotation/db.json
+
+  extract_annotated_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_annotation_extraction.py
+    deps:
+      - sqqd/pipeline/scripts/run_annotation_extraction.py
+      - data/datasets/sparql_dataset/annotation/annotated_db.json
+    outs:
+      - data/datasets/sparql_dataset/output/results_db_filtered.json
+
+  run_entity_linking_titles_extraction:
+    foreach:
+      - 0
+      - 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking.py --iteration ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_entity_linking.py
+        - data/datasets/suggestion_dataset/entity_linking/input/${item}/input.json
+      outs:
+        - data/datasets/suggestion_dataset/entity_linking/processed/${item}/entity_linking_results.json
+
+  run_wikidata_ids_retrieval:
+    foreach:
+      - 0
+      - 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_id_retrieving.py --iteration ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_wikidata_id_retrieving.py
+        - data/datasets/suggestion_dataset/entity_linking/input/${item}/input.json
+        - data/datasets/suggestion_dataset/entity_linking/processed/${item}/entity_linking_results.json
+      outs:
+        - data/datasets/suggestion_dataset/entity_linking/processed/${item}/titles_and_ids.json
+
+  run_entity_linking_output_merge:
+    foreach:
+      - 0
+      - 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_merge.py --iteration ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_entity_linking_merge.py
+        - data/datasets/suggestion_dataset/entity_linking/input/${item}/input.json
+        - data/datasets/suggestion_dataset/entity_linking/processed/${item}/titles_and_ids.json
+        - data/datasets/suggestion_dataset/entity_linking/processed/${item}/entity_linking_results.json
+      outs:
+        - data/datasets/suggestion_dataset/entity_linking/output/${item}/output.json
+
+  run_entity_linking_verification_preparation:
+    foreach:
+      - 0
+      - 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py 
+        --iteration ${item}
+        --annotator 0.5
+        --annotator 0.5
+      deps:
+        - gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py
+        - data/datasets/suggestion_dataset/entity_linking/output/${item}/output.json
+      outs:
+        - data/datasets/suggestion_dataset/entity_linking/annotation/input/${item}
+
+  run_final_kbqa_construction:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_final_kbqa_construction.py
+    deps:
+      - gqqd/pipeline/scripts/run_final_kbqa_construction.py
+      - data/datasets/suggestion_dataset/entity_linking/annotation/output/0
+      - data/datasets/suggestion_dataset/entity_linking/annotation/output/1
+      - data/datasets/suggestion_dataset/entity_linking/output/0/output.json
+      - data/datasets/suggestion_dataset/entity_linking/output/1/output.json
+    outs:
+      - data/datasets/suggestion_dataset/final/kbqa_unlabeled.json
+
+  run_wikidata_dump_filtering_hop_0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_dump_filtering.py --hop 0
+    deps:
+      - gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      - data/datasets/final/kbqa/kbqa_natural
+      - data/datasets/final/kbqa/kbqa_template-based
+    outs:
+      - data/wikidata/dumps/filtered/filtered_entities_hop_0.json
+
+  run_wikidata_dump_filtering_hop_1_2:
+    foreach:
+      - hop: 1
+        previous_hop: 0
+      - hop: 2
+        previous_hop: 1
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_dump_filtering.py --hop ${item.hop}
+      deps:
+        - gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+        - data/wikidata/dumps/filtered/filtered_entities_hop_${item.previous_hop}.json
+      outs:
+        - data/wikidata/dumps/filtered/filtered_entities_hop_${item.hop}.json
+
+  run_manual_correction_preparation:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_manual_correction_preparation.py
+    deps:
+      - gqqd/pipeline/scripts/run_manual_correction_preparation.py
+      - data/datasets/suggestion_dataset/entity_linking/annotation/output/0
+      - data/datasets/suggestion_dataset/entity_linking/annotation/output/1
+    outs:
+      - data/datasets/suggestion_dataset/entity_linking/annotation/correction/to_correct.csv
+
+  run_final_kbqa_labeling:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_label_final_kbqa.py
+    deps:
+      - gqqd/pipeline/scripts/run_label_final_kbqa.py
+      - data/datasets/suggestion_dataset/final/kbqa_unlabeled.json
+    outs:
+      - data/datasets/suggestion_dataset/final/kbqa_labeled.json
+
+  run_split:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_split.py
+    deps:
+      - gqqd/pipeline/scripts/run_split.py
+      - data/datasets/suggestion_dataset/final/kbqa_labeled.json
+    outs:
+      - data/datasets/final/kbqa/kbqa_natural
+
+  run_final_kbqa_sparql_construction:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_final_construction.py
+    deps:
+      - sqqd/pipeline/scripts/run_final_construction.py
+      - data/datasets/sparql_dataset/output/results_db_filtered.json
+    outs:
+      - data/datasets/final/kbqa/kbqa_template-based
+
+  run_wikidata_graph_construction:
+    foreach:
+      - 0
+      - 1
+      - 2
+    do:
+      cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_graph_construction.py --hop ${item}
+      deps:
+        - gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+        - data/wikidata/dumps/filtered/filtered_entities_hop_${item}.json
+      outs:
+        - data/wikidata/graphs/hop_${item}
+
+  baseline_kbqa_embed:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/embed.py
+    deps:
+      - baselines/kbqa/scripts/embed.py
+      - data/baselines/kbqa/properties.csv
+      - data/datasets/final/kbqa/kbqa_natural
+      - data/datasets/final/kbqa/kbqa_template-based
+    outs:
+      - data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      - data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      - data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      - data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      - data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      - data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+
+  retrieve_subgraphs:
+    foreach:
+      - dataset_name: kbqa_natural
+        subset: test
+        graph_hop: 1
+        retriever_hop: 3
+        k: 40
+      - dataset_name: kbqa_natural
+        subset: test
+        graph_hop: 2
+        retriever_hop: 2
+        k: 40
+      - dataset_name: kbqa_template-based
+        subset: test
+        graph_hop: 1
+        retriever_hop: 3
+        k: 40
+      - dataset_name: kbqa_template-based
+        subset: test
+        graph_hop: 2
+        retriever_hop: 2
+        k: 40
+    do:
+      cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/retrieve_subgraphs.py 
+        --dataset-name ${item.dataset_name}
+        --subset ${item.subset}
+        --graph-hop ${item.graph_hop}
+        --retriever-hop ${item.retriever_hop}
+        --k ${item.k}
+        --workers 15
+      deps:
+        - baselines/kbqa/scripts/retrieve_subgraphs.py
+        - data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+        - data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+        - data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+        - data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+        - data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+        - data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+        - data/datasets/final/kbqa/kbqa_natural
+        - data/datasets/final/kbqa/kbqa_template-based
+        - data/wikidata/graphs/hop_1
+        - data/wikidata/graphs/hop_2
+      outs:
+        - data/baselines/kbqa/subgraphs/graph_hop_${item.graph_hop}/${item.dataset_name}/retriever_hop_${item.retriever_hop}/k_${item.k}/test.json
+
+  baseline_kbqa_predict_knowledge:
+    foreach:
+      - dataset_name: kbqa_natural
+        model: gpt-3.5-turbo
+        predictor_mode: knowledge
+        graph_hop: 1
+        retriever_hop: 3
+        k: 40
+      - dataset_name: kbqa_natural
+        model: gpt-3.5-turbo
+        predictor_mode: knowledge
+        graph_hop: 2
+        retriever_hop: 2
+        k: 40
+      - dataset_name: kbqa_template-based
+        model: gpt-3.5-turbo
+        predictor_mode: knowledge
+        graph_hop: 1
+        retriever_hop: 3
+        k: 40
+      - dataset_name: kbqa_template-based
+        model: gpt-3.5-turbo
+        predictor_mode: knowledge
+        graph_hop: 2
+        retriever_hop: 2
+        k: 40
+
+    do:
+      cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py 
+            --dataset-name ${item.dataset_name}
+            --model ${item.model}  
+            --predictor-mode ${item.predictor_mode} 
+            --graph-hop ${item.graph_hop}
+            --retriever-hop ${item.retriever_hop}
+            --k ${item.k}
+      deps:
+        - baselines/kbqa/scripts/predict.py
+        - data/datasets/final/kbqa/kbqa_natural
+        - data/datasets/final/kbqa/kbqa_template-based
+      outs:
+        - data/baselines/kbqa/predictions/${item.predictor_mode}/graph_hop_${item.graph_hop}/${item.model}/${item.dataset_name}/retriever_hop_${item.retriever_hop}/k_${item.k}/test.json
+        - data/baselines/kbqa/predictions/${item.predictor_mode}/graph_hop_${item.graph_hop}/${item.model}/${item.dataset_name}/retriever_hop_${item.retriever_hop}/k_${item.k}/config.json
+
+  baseline_kbqa_predict_noknowledge:
+    foreach:
+      - dataset_name: kbqa_natural
+        model: gpt-3.5-turbo
+        predictor_mode: noknowledge
+      - dataset_name: kbqa_template-based
+        model: gpt-3.5-turbo
+        predictor_mode: noknowledge
+
+    do:
+      cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py 
+            --dataset-name ${item.dataset_name}
+            --model ${item.model}  
+            --predictor-mode ${item.predictor_mode} 
+      deps:
+        - baselines/kbqa/scripts/predict.py
+        - data/datasets/final/kbqa/kbqa_natural
+        - data/datasets/final/kbqa/kbqa_template-based
+      outs:
+        - data/baselines/kbqa/predictions/${item.predictor_mode}/graph_hop_None/${item.model}/${item.dataset_name}/retriever_hop_None/k_None/test.json
+        - data/baselines/kbqa/predictions/${item.predictor_mode}/graph_hop_None/${item.model}/${item.dataset_name}/retriever_hop_None/k_None/config.json
+
+  baseline_kbqa_evaluate:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/evaluate.py
+    deps:
+      - baselines/kbqa/scripts/evaluate.py
+      - data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_natural/retriever_hop_3/k_40/test.json
+      - data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_natural/retriever_hop_2/k_40/test.json
+      - data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_template-based/retriever_hop_3/k_40/test.json
+      - data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_template-based/retriever_hop_2/k_40/test.json
+      - data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_natural/retriever_hop_None/k_None/test.json
+      - data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_template-based/retriever_hop_None/k_None/test.json
+    outs:
+      - data/baselines/kbqa/results/final_results.tex:
+          cache: false
+
+  prepare_ir_passages:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_negative_ir_passages.py
+    deps:
+      - data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      - data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+      - data/datasets/suggestion_dataset/results/annotated/inforex/inforex_export_904
+    outs:
+      - data/datasets/ir_dataset/all_passages.jsonl
+
+  prepare_ir_dataset:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_ir_dataset.py
+    deps:
+      - data/datasets/mrc_dataset/mrc_dataset.json
+      - data/datasets/ir_dataset/all_passages.jsonl
+    outs:
+      - data/datasets/final/ir/queries.jsonl
+      - data/datasets/ir_dataset/corpus_small.jsonl
+      - data/datasets/ir_dataset/corpus_full.jsonl
+      - data/datasets/final/ir/qrels/test.tsv
+
+  prepare_final_ir_corpus:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_filter_ir_corpus.py
+    deps:
+      - data/datasets/ir_dataset/corpus_full.jsonl
+    outs:
+      - data/datasets/final/ir/corpus.jsonl
+
+  baseline_ir_bm25_evaluate:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_bm25.py
+    deps:
+      - data/datasets/final/ir/corpus.jsonl
+      - data/datasets/final/ir/queries.jsonl
+      - data/datasets/final/ir/qrels/test.tsv
+    outs:
+      - data/baselines/ir/BM25_morfologik:
+          cache: false
+
+  baseline_ir_retriever_evaluate:
+    foreach:
+      - model_path: intfloat/multilingual-e5-base
+        model_name: multilingual-e5-base
+        query_prefix: "query: "
+        passage_prefix: "passage: "
+      - model_path: intfloat/multilingual-e5-large
+        model_name: multilingual-e5-large
+        query_prefix: "query: "
+        passage_prefix: "passage: "
+      - model_path: sdadas/mmlw-retrieval-roberta-base
+        model_name: mmlw-retrieval-roberta-base
+        query_prefix: "zapytanie: "
+        passage_prefix: ""
+      - model_path: sdadas/mmlw-retrieval-roberta-large
+        model_name: mmlw-retrieval-roberta-large
+        query_prefix: "zapytanie: "
+        passage_prefix: ""
+      - model_path: ipipan/silver-retriever-base-v1.1
+        model_name: silver-retriever-base-v1.1
+        query_prefix: "Pytanie: "
+        passage_prefix: ""
+
+    do:
+      cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py
+            --model_name ${item.model_path}
+            --query_prefix ${item.model_path}
+            --passage_prefix ${item.passage_prefix}
+      deps:
+        - data/datasets/final/ir/corpus.jsonl
+        - data/datasets/final/ir/queries.jsonl
+        - data/datasets/final/ir/qrels/test.tsv
+      outs:
+        - data/baselines/ir/retriever_${item.model_name}:
+            cache: false
+
+  baseline_ir_bm25_reranker_evaluate:
+    foreach:
+      - model_path: clarin-knext/herbert-base-reranker-msmarco
+        model_name: herbert-base-reranker-msmarco
+      - model_path: clarin-knext/herbert-large-msmarco
+        model_name: herbert-large-msmarco
+      - model_path: sdadas/polish-reranker-base-ranknet
+        model_name: polish-reranker-base-ranknet
+      - model_path: sdadas/polish-reranker-large-ranknet
+        model_name: polish-reranker-large-ranknet
+
+    do:
+      cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_reranker.py
+            --model_name ${item.model_path}
+      deps:
+        - data/datasets/final/ir/corpus.jsonl
+        - data/datasets/final/ir/queries.jsonl
+        - data/datasets/final/ir/qrels/test.tsv
+      outs:
+        - data/baselines/ir/BM25_reranker_${item.model_name}:
+            cache: false
+
+  baseline_ir_dense_retriever_reranker_evaluate:
+      cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_dense_retriever_with_reranker.py
+      deps:
+        - data/datasets/final/ir/corpus.jsonl
+        - data/datasets/final/ir/queries.jsonl
+        - data/datasets/final/ir/qrels/test.tsv
+      outs:
+        - data/baselines/ir/Dense_retriever_multilingual-e5-large_reranker_polish-reranker-large-ranknet:
+            cache: false
+
+  baseline_mrc_extractive_evaluate:
+    foreach:
+      - model_path: allegro/herbert-base-cased
+        model_name: herbert-base-cased
+      - model_path: allegro/herbert-large-cased
+        model_name: herbert-large-cased
+
+    do:
+      cmd: PYTHONPATH=. baselines/mrc/hf_qa/qa_eval_extractive.py
+            --model_name_or_path ${item.model_path}
+            --use_auth_token False
+            --do_predict True
+            --do_train True
+            --output_dir data/baselines/mrc/models/${item.model_name}-pugg-mrc-extractive
+            --overwrite_output_dir True
+            --test_file data/datasets/final/mrc/test.json
+            --train_file data/datasets/final/mrc/train.json
+      deps:
+        - data/datasets/final/mrc/test.json
+        - data/datasets/final/mrc/train.json
+      outs:
+        - data/baselines/mrc/models/${item.model_name}-pugg-mrc-extractive:
+            cache: false
+
+  baseline_mrc_generative_evaluate:
+    foreach:
+      - model_path: allegro/herbert-base-cased
+        model_name: herbert-base-cased
+      - model_path: allegro/herbert-large-cased
+        model_name: herbert-large-cased
+
+    do:
+      cmd: PYTHONPATH=. baselines/mrc/hf_qa/qa_eval_generative.py 
+            --model_name_or_path ${item.model_path}
+            --use_auth_token False
+            --do_predict True
+            --do_train True
+            --output_dir data/baselines/mrc/models/${item.model_name}-pugg-mrc-generative
+            --overwrite_output_dir True
+            --test_file data/datasets/final/mrc/test.json
+            --train_file data/datasets/final/mrc/train.json
+            --answer_column answer
+            --question_column question
+            --predict_with_generate True
+      deps:
+        - data/datasets/final/mrc/test.json
+        - data/datasets/final/mrc/train.json
+      outs:
+        - data/baselines/mrc/models/${item.model_name}-pugg-mrc-generative:
+            cache: false
+
+  create_hf_datasets:
+    foreach:
+      - kbqa
+      - mrc
+      - ir
+    do:
+      cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py ${item}
+      deps:
+        - tools/huggingface/run_hf_dataset_creation.py
+        - data/datasets/final/${item}
+        - data/datasets/huggingface/readme/README_dataset.md
+        - data/datasets/huggingface/readme/config_${item}.yaml
+        - data/datasets/huggingface/metadata/${item}.yaml
+      outs:
+        - data/datasets/huggingface/${item}
+
+  create_hf_general_dataset:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py general
+    deps:
+      - tools/huggingface/run_hf_dataset_creation.py
+      - data/datasets/final/kbqa
+      - data/datasets/final/mrc
+      - data/datasets/final/ir
+      - data/datasets/huggingface/readme/README_dataset.md
+      - data/datasets/huggingface/readme/config_general.yaml
+      - data/datasets/huggingface/metadata/general.yaml
+    outs:
+      - data/datasets/huggingface/general
+
+  create_hf_kg_dataset:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_kg_dataset_creation.py --hops 1 --hops 2
+    deps:
+      - tools/huggingface/run_hf_kg_dataset_creation.py
+      - data/datasets/huggingface/readme/README_kg.md
+      - data/datasets/huggingface/readme/config_kg.yaml
+      - data/datasets/huggingface/metadata/kg.yaml
+      - data/wikidata/graphs/hop_1
+      - data/wikidata/graphs/hop_2
+    outs:
+      - data/datasets/huggingface/kg
+
+  push_hf_datasets:
+    foreach:
+      - dataset: kbqa
+        repo: clarin-pl/PUGG_KBQA
+      - dataset: mrc
+        repo: clarin-pl/PUGG_MRC
+      - dataset: ir
+        repo: clarin-pl/PUGG_IR
+      - dataset: general
+        repo: clarin-pl/PUGG
+      - dataset: kg
+        repo: clarin-pl/PUGG_KG
+    do:
+      cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py
+        --dataset ${item.dataset}
+        --repo-id ${item.repo}
+      deps:
+        - tools/huggingface/run_hf_dataset_push.py
+        - data/datasets/huggingface/${item.dataset}
+      frozen: true

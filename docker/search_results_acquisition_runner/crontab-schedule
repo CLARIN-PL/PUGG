@@ -1,0 +1,7 @@
+# Load all necessary environment variables to /etc/environment
+
+SHELL=/bin/bash
+BASH_ENV=/etc/environment
+
+# Jobs
+0 7,19 * * * root cd /google-query-qa-dataset && poetry run python -m gqqd.pipeline.scripts.run_search_results_acquisition > /proc/1/fd/1 2>/proc/1/fd/2

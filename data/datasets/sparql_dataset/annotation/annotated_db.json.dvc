@@ -1,0 +1,4 @@
+outs:
+- md5: fe08acec1bcf1666abe5b96ff3bee54f
+  size: 2202010
+  path: annotated_db.json

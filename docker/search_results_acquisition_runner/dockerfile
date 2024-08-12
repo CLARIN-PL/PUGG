@@ -1,0 +1,19 @@
+FROM python:3.10 AS base
+
+RUN apt-get update -qq && apt-get -qq -y install cron
+RUN python -m pip install poetry -q
+
+COPY poetry.lock /google-query-qa-dataset/poetry.lock
+COPY pyproject.toml /google-query-qa-dataset/pyproject.toml
+WORKDIR google-query-qa-dataset
+
+RUN python -m poetry install -q
+
+FROM base
+
+COPY gqqd /google-query-qa-dataset/gqqd
+COPY docker/search_results_acquisition_runner/crontab-schedule /etc/cron.d/cron-schedule
+RUN chmod 0644 /etc/cron.d/cron-schedule
+RUN touch /var/log/cron.log
+
+ENTRYPOINT printenv >> /etc/environment && cron -f

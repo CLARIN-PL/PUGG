@@ -1,0 +1,21 @@
+annotations_creators: []
+language:
+- pl
+- en
+language_creators: []
+license:
+- cc-by-sa-4.0
+multilinguality:
+- monolingual
+- multilingual
+pretty_name: 'PUGG: KG for KBQA task in Polish'
+size_categories: []
+source_datasets:
+- found
+tags:
+- knowledge graph
+- KBQA
+- wikipedia
+- wikidata
+task_categories: []
+task_ids: []

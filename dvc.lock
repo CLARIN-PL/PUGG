@@ -1,0 +1,2093 @@
+schema: '2.0'
+stages:
+  extract_prefixes@czywiesz:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction.py --dataset
+      czywiesz
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction.py
+      md5: 6a940480594b49ad477114d0a6539bec
+      size: 1962
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz.json
+      md5: f72dc0bf8dd07bdc05e9fb4408e3c3ed
+      size: 218466
+  acquire_suggestions@czywiesz:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset czywiesz
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz.json
+      md5: f72dc0bf8dd07bdc05e9fb4408e3c3ed
+      size: 218466
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz.json
+      md5: 3d58625be157ff421db2d34cc83164ec
+      size: 1094050
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz.json_log
+      md5: d791d34f83acdf566b76396a6ece0a09
+      size: 15130
+  extract_prefixes@poquad:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction.py --dataset
+      poquad
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction.py
+      md5: 6a940480594b49ad477114d0a6539bec
+      size: 1962
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad.json
+      md5: b758efbf74cec33da04dbcd069f9682b
+      size: 367328
+  acquire_suggestions@poquad:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset poquad
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad.json
+      md5: b758efbf74cec33da04dbcd069f9682b
+      size: 367328
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/poquad.json
+      md5: 07caf3ac8d18cfbb51706c8be54662ed
+      size: 2028347
+    - path: data/datasets/suggestion_dataset/suggestions/poquad.json_log
+      md5: 68ab9fe23abecebd1b5a306eebc32d9f
+      size: 2064
+  extract_prefixes_ntokens@2:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset czywiesz --n 3
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_3t.json
+      md5: 2cf76d00f0fe2a02f90fe71dfda360fa
+      size: 110644
+  extract_prefixes_ntokens@4:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset poquad --n 2
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_2t.json
+      md5: 9960b6e6305d457f9ae7b62cac1cb629
+      size: 104481
+  extract_prefixes_ntokens@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset czywiesz --n 1
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_1t.json
+      md5: f50a9404bac52d99a810005f258a7312
+      size: 2194
+  extract_prefixes_ntokens@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset czywiesz --n 2
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_2t.json
+      md5: d3dffb6503db4d39a718e4015b068ff2
+      size: 50049
+  extract_prefixes_ntokens@5:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset poquad --n 3
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_3t.json
+      md5: e3e12d1d9649ecf4fd99851bbf79aeff
+      size: 250382
+  extract_prefixes_ntokens@3:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      --dataset poquad --n 1
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    - path: gqqd/pipeline/scripts/run_prefix_extraction_ntokens.py
+      md5: 15697aaedad21f1372204b3735b63f68
+      size: 1132
+    outs:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_1t.json
+      md5: 881f73e037d9d8bf70e86689563c193e
+      size: 3907
+  extract_prefixes_ntokens_for_annotation@0:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      --dataset czywiesz --n 1
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      md5: 3f84f82b090f1269ac273c9c5845872a
+      size: 1267
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/czywiesz_1t.json
+      md5: 91e4042836241dc6f4aeb35c8a0118cf
+      size: 463
+  extract_prefixes_ntokens_for_annotation@1:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      --dataset poquad --n 1
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      md5: 3f84f82b090f1269ac273c9c5845872a
+      size: 1267
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/poquad_1t.json
+      md5: 80548a22fd556a21c969d863756b4180
+      size: 899
+  extract_prefixes_ntokens_for_annotation@2:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      --dataset czywiesz --n 2
+    deps:
+    - path: data/datasets/external/czywiesz
+      md5: 25c532c715fa8e1606c0e076b2ffc046.dir
+      size: 1060300
+      nfiles: 3
+    - path: gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      md5: 3f84f82b090f1269ac273c9c5845872a
+      size: 1267
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/czywiesz_2t.json
+      md5: 00e943c78183ddbde24f101601ebb25d
+      size: 9726
+  extract_prefixes_ntokens_for_annotation@3:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      --dataset poquad --n 2
+    deps:
+    - path: data/datasets/external/poquad
+      md5: 6a319ad72560e8c6d111dd167f6d079c.dir
+      size: 14800629
+      nfiles: 5
+    - path: gqqd/data/scripts/run_prefix_extraction_ntokens_for_annotation.py
+      md5: 3f84f82b090f1269ac273c9c5845872a
+      size: 1267
+    - path: gqqd/pipeline/prefix_extractors.py
+      md5: 9f4db374df1c06a03437b6f76dde76e1
+      size: 2481
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/poquad_2t.json
+      md5: 24ba69a7d48287d26ced16d9e322e5b8
+      size: 19232
+  prefix_2tokens_reduction@1:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_ntokens_reduction.py --dataset
+      poquad --n 2
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/annotated/poquad_1t.json
+      md5: fd2e2949ef9e7db7aef155e16901ee50
+      size: 651
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/poquad_2t.json
+      md5: 24ba69a7d48287d26ced16d9e322e5b8
+      size: 19232
+    - path: gqqd/data/scripts/run_prefix_ntokens_reduction.py
+      md5: 2673b5da921e3df619106e7d28ea37f8
+      size: 1092
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/poquad_2t_reduced.json
+      md5: 5d5dfc26663975166168c37bc4cfad20
+      size: 306
+  prefix_2tokens_reduction@0:
+    cmd: PYTHONPATH=. python3 gqqd/data/scripts/run_prefix_ntokens_reduction.py --dataset
+      czywiesz --n 2
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/annotated/czywiesz_1t.json
+      md5: b420688f12c6ff7448276a0a2e5ad6dd
+      size: 485
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/czywiesz_2t.json
+      md5: 00e943c78183ddbde24f101601ebb25d
+      size: 9726
+    - path: gqqd/data/scripts/run_prefix_ntokens_reduction.py
+      md5: 2673b5da921e3df619106e7d28ea37f8
+      size: 1092
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/filtering/correct_prefixes/to_annotate/czywiesz_2t_reduced.json
+      md5: 77b9eefca7935248d42d12c3fe9e76a5
+      size: 87
+  acquire_suggestions@czywiesz_3t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset czywiesz_3t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_3t.json
+      md5: 2cf76d00f0fe2a02f90fe71dfda360fa
+      size: 110644
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_3t.json
+      md5: fefc66b68022a1afe6cc55164951d052
+      size: 1146901
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_3t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_suggestions@czywiesz_1t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset czywiesz_1t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_1t.json
+      md5: f50a9404bac52d99a810005f258a7312
+      size: 2194
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_1t.json
+      md5: e65311cd320ee8eb0bca0b3fba79ae05
+      size: 55557
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_1t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_suggestions@poquad_3t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset poquad_3t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_3t.json
+      md5: e3e12d1d9649ecf4fd99851bbf79aeff
+      size: 250382
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_3t.json
+      md5: 88f1e5a14091aaf2dcde0564735e37b7
+      size: 2498443
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_3t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_suggestions@czywiesz_2t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset czywiesz_2t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/czywiesz_2t.json
+      md5: d3dffb6503db4d39a718e4015b068ff2
+      size: 50049
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_2t.json
+      md5: a202032d66a64da2a88ce69ce323fd3f
+      size: 895379
+    - path: data/datasets/suggestion_dataset/suggestions/czywiesz_2t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_suggestions@poquad_1t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset poquad_1t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_1t.json
+      md5: 881f73e037d9d8bf70e86689563c193e
+      size: 3907
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_1t.json
+      md5: c8bd91626a7927dc02d556274fd6012a
+      size: 97641
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_1t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_suggestions@poquad_2t:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      --dataset poquad_2t
+    deps:
+    - path: data/datasets/suggestion_dataset/prefixes/poquad_2t.json
+      md5: 9960b6e6305d457f9ae7b62cac1cb629
+      size: 104481
+    - path: gqqd/api/suggestion_client.py
+      hash: md5
+      md5: 078295af61d9424bf56756ac2810eac3
+      size: 993
+    - path: gqqd/pipeline/scripts/run_suggestion_acquisition.py
+      hash: md5
+      md5: 3f45a4fdbdb6e4d73383c9d635581333
+      size: 1883
+    outs:
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_2t.json
+      md5: d2de5bea89f7864245b7cea7eb4ddb89
+      size: 1864939
+    - path: data/datasets/suggestion_dataset/suggestions/poquad_2t.json_log
+      md5: 90dacd9ae92bf9f16e9a6f151543f7e1
+      size: 83
+  acquire_context:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_context_acquisition.py
+    deps:
+    - path: data/datasets/suggestion_dataset/search_results/db.json
+      md5: d539d3b94758e19f6e9466f8f0930528
+      size: 3859632082
+    - path: gqqd/api/wikipedia_content_client.py
+      md5: ec84add306b2715ac0a6f0a3e85fec22
+      size: 6215
+    - path: gqqd/data/loaders.py
+      md5: 853f6e589c8f6d62ba339c992d078cf8
+      size: 2477
+    - path: gqqd/pipeline/scripts/run_context_acquisition.py
+      md5: 442ba01708f67691c74df489f6efca29
+      size: 2044
+    outs:
+    - path: data/datasets/suggestion_dataset/wiki_content/db.json
+      md5: 1a8cc4e20838bd2ce1cca4419c14522a
+      size: 514768470
+  construct_dataset_for_annotation:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_construction_dataset_for_annotation.py
+    deps:
+    - path: data/datasets/suggestion_dataset/filtering/correct_prefixes/annotated
+      md5: 3222a15954d1a8e954beda23abd952bd.dir
+      size: 1873
+      nfiles: 9
+    - path: data/datasets/suggestion_dataset/search_results/db.json
+      md5: d539d3b94758e19f6e9466f8f0930528
+      size: 3859632082
+    - path: data/datasets/suggestion_dataset/suggestions
+      md5: 82d66524969da49acc0f16f04197c444.dir
+      size: 9699241
+      nfiles: 17
+    - path: data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+      md5: 38c8f5d4bd729b7d108f5d1d1bc599c0
+      size: 512949823
+    - path: gqqd/data/loaders.py
+      md5: 853f6e589c8f6d62ba339c992d078cf8
+      size: 2477
+    - path: gqqd/pipeline/output/data.py
+      md5: 22dfd90379084bc9d56803244c5f1b0e
+      size: 1195
+    - path: gqqd/pipeline/passage_retrieval.py
+      md5: d7ee8bc93943501957637004b99b6f19
+      size: 4893
+    - path: gqqd/pipeline/question_filtering.py
+      md5: 7b86de7a0941f27074a40392279142b7
+      size: 1992
+    - path: gqqd/pipeline/scripts/run_construction_dataset_for_annotation.py
+      md5: ee27b82eec854145cf7918e067b45c02
+      size: 5824
+    params:
+      params.yaml:
+        construct_dataset_for_annotation:
+          passage_length: 120
+          passage_step: 60
+    outs:
+    - path: data/datasets/suggestion_dataset/results/output/qa_for_annotation.json
+      md5: a56ccf1bb78005e03e634af633a13567
+      size: 3937718151
+  wiki_context_fix:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wiki_context_fix.py
+    deps:
+    - path: data/datasets/suggestion_dataset/wiki_content/db.json
+      md5: 1a8cc4e20838bd2ce1cca4419c14522a
+      size: 514768470
+    - path: gqqd/pipeline/scripts/run_wiki_context_fix.py
+      md5: 297cdce8d2364a7dd4a988be14771701
+      size: 1522
+    outs:
+    - path: data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+      md5: 38c8f5d4bd729b7d108f5d1d1bc599c0
+      size: 512949823
+  rerank_for_annotation:
+    cmd: bash docker/reranker/run_reranker.sh
+    deps:
+    - path: data/datasets/suggestion_dataset/results/output/qa_for_annotation.json
+      md5: a56ccf1bb78005e03e634af633a13567
+      size: 3937718151
+    - path: docker/reranker/Dockerfile
+      md5: 1b28e713e955864a4f47e5795277ee5e
+      size: 957
+    - path: docker/reranker/run_reranker.sh
+      md5: 1272864fc255491d2ea19c82cdac2e59
+      size: 405
+    - path: tools/reranker/rerank.py
+      md5: c64e49a130a62f4bccb99418cead2387
+      size: 1514
+    outs:
+    - path: data/datasets/suggestion_dataset/results/annotated/qa_reranked.json
+      md5: 4f730df3aa5c81c18c1bd8c475f2fa9a
+      size: 3322872085
+  chatgpt_responses@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_chatgpt_responses.py --iteration
+      0
+    deps:
+    - path: data/datasets/suggestion_dataset/results/annotated/qa_reranked.json
+      md5: 4f730df3aa5c81c18c1bd8c475f2fa9a
+      size: 3322872085
+    - path: gqqd/auto_annotation/quote_chatgpt_config.yaml
+      md5: 4204bee6dda3deae090bcdc2ef93c287
+      size: 1307
+    - path: gqqd/pipeline/scripts/run_chatgpt_responses.py
+      md5: 793e733a13df7233caa09cd717c94837
+      size: 2351
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_responses_iteration_0.json
+      md5: 064fa168f66dac853b3992d1779d2163
+      size: 148268973
+  chatgpt_auto_annotate@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_chatgpt_auto_annotation.py
+      --iteration 0
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_responses_iteration_0.json
+      md5: 064fa168f66dac853b3992d1779d2163
+      size: 148268973
+    - path: gqqd/auto_annotation/chatgpt_annotator.py
+      md5: ae50d134b97582665a2e05e2ada96778
+      size: 4989
+    - path: gqqd/pipeline/scripts/run_chatgpt_auto_annotation.py
+      md5: 390b02c98ac7ea9dc03dead0ff575794
+      size: 1399
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+  inforex_preparation@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_inforex_preparation.py --iteration
+      0
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+    - path: gqqd/pipeline/scripts/run_inforex_preparation.py
+      md5: fa2507888e6523471ec03a6a16c25661
+      size: 2300
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+      md5: a346b66b3a30f2df5456baba03c2a3a6
+      size: 26172954
+  inforex_output_verification_preparation@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py  --inforex-iteration
+      0 --annotator 0.3 --annotator 0.7
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+    - path: data/datasets/suggestion_dataset/results/annotated/inforex/inforex_export_809
+      md5: de8f82c400cba93914a498a02ca8815b.dir
+      size: 6061949
+      nfiles: 14929
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+      md5: a346b66b3a30f2df5456baba03c2a3a6
+      size: 26172954
+    - path: data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+      md5: 38c8f5d4bd729b7d108f5d1d1bc599c0
+      size: 512949823
+    - path: gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py
+      md5: cb5f9504e14a1d9c9c04d8a7d0597d56
+      size: 6392
+    outs:
+    - path: data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/0
+      md5: bd13c0821b52a271d72db873467a0aa1.dir
+      size: 2606649
+      nfiles: 2
+  prepare_verified_data_for_entity_linking@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+      --inforex-output-iteration 0
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/0_verified
+      md5: 49d32c47bb414e4308f7876428a33a72.dir
+      size: 2017611
+      nfiles: 2
+    - path: gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+      md5: 12614c4162e91a10e6d90324af039358
+      size: 5214
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/0/input.json
+      md5: 3e8896d0db9f7240138c4f2bf68c05eb
+      size: 1316593
+  construct_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_question_retrieving.py
+    deps:
+    - path: data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+      md5: c61246891434e72d2d2b369f5392e4d0
+      size: 308788
+    - path: sqqd/pipeline/scripts/run_sparql_question_retrieving.py
+      md5: ef9380a980e1d05eb1d8fdb62cb7b417
+      size: 2306
+    outs:
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_mixed_template.json
+      md5: 38ad313f3c53e3e777231e6e18835b3d
+      size: 680385
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template.json
+      md5: d613a9af9e362a28051867831961b67b
+      size: 741767
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template_with_mask.json
+      md5: d866a2374839d400e29515d6a78f4265
+      size: 835893
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template.json
+      md5: bc7a4b99b7848c6a293a677f72554a7e
+      size: 476150
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template_with_mask.json
+      md5: 64ac4b1736f80edf74facfaa5323c174
+      size: 669469
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template.json
+      md5: f68853566a95f9276b680fc9aa967c87
+      size: 636223
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template_with_mask.json
+      md5: 6f6b8228b52a205e6dee439ec72c1694
+      size: 678471
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_two_hop_template.json
+      md5: 690399633ae8b8e4ca4bf1e9e79edf83
+      size: 765675
+  merge_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_question_merge.py
+    deps:
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_mixed_template.json
+      md5: 38ad313f3c53e3e777231e6e18835b3d
+      size: 680385
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template.json
+      md5: d613a9af9e362a28051867831961b67b
+      size: 741767
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_one_hop_template_with_mask.json
+      md5: d866a2374839d400e29515d6a78f4265
+      size: 835893
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template.json
+      md5: bc7a4b99b7848c6a293a677f72554a7e
+      size: 476150
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_one_hop_template_with_mask.json
+      md5: 64ac4b1736f80edf74facfaa5323c174
+      size: 669469
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template.json
+      md5: f68853566a95f9276b680fc9aa967c87
+      size: 636223
+    - path: 
+        data/datasets/sparql_dataset/sparql_questions/results_for_reverse_two_hop_template_with_mask.json
+      md5: 6f6b8228b52a205e6dee439ec72c1694
+      size: 678471
+    - path: data/datasets/sparql_dataset/sparql_questions/results_for_two_hop_template.json
+      md5: 690399633ae8b8e4ca4bf1e9e79edf83
+      size: 765675
+    - path: sqqd/pipeline/scripts/run_sparql_question_merge.py
+      md5: a64b6b8565aceb153f3b77c529467384
+      size: 1004
+    outs:
+    - path: data/datasets/sparql_dataset/sparql_questions/db.json
+      md5: bbc7689e61170bdab3de69612b5ff22b
+      size: 5489013
+  inflect_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_chatgpt_inflection.py
+    deps:
+    - path: data/datasets/sparql_dataset/sparql_questions/db.json
+      md5: bbc7689e61170bdab3de69612b5ff22b
+      size: 5489013
+    - path: sqqd/api/chatgpt_rephrasing/chatgpt_config_for_inflection.yaml
+      md5: 21b21a0c041d9d73b53134e242dc949a
+      size: 810
+    - path: sqqd/pipeline/scripts/run_chatgpt_inflection.py
+      md5: 632324dde96f368894f5efac28eb5fd8
+      size: 572
+    outs:
+    - path: data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+      md5: 18098355c8085eb93e40ef6a2e2d6486
+      size: 1001651
+  paraphrase_sparql_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_chatgpt_paraphrasing.py
+    deps:
+    - path: data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+      md5: 18098355c8085eb93e40ef6a2e2d6486
+      size: 1001651
+    - path: sqqd/api/chatgpt_rephrasing/chatgpt_config_for_paraphrasing.yaml
+      md5: 5cad70a8e836dff4a0bd1502ee3c5b7d
+      size: 323
+    - path: sqqd/pipeline/scripts/run_chatgpt_paraphrasing.py
+      md5: e20ecbf37e749b981b3c2978069bcffd
+      size: 619
+    outs:
+    - path: data/datasets/sparql_dataset/chatgpt_paraphrase_results/db.json
+      md5: ca4a9fa3750931f585e20b99230e99bb
+      size: 1011679
+  construct_sparql_dataset:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_sparql_dataset_construction.py
+    deps:
+    - path: data/datasets/sparql_dataset/chatgpt_inflection_results/db.json
+      md5: 18098355c8085eb93e40ef6a2e2d6486
+      size: 1001651
+    - path: data/datasets/sparql_dataset/chatgpt_paraphrase_results/db.json
+      md5: ca4a9fa3750931f585e20b99230e99bb
+      size: 1011679
+    - path: data/datasets/sparql_dataset/sparql_questions/db.json
+      md5: bbc7689e61170bdab3de69612b5ff22b
+      size: 5489013
+    - path: sqqd/pipeline/scripts/run_sparql_dataset_construction.py
+      md5: 921e6eca6cbb96cd0f584bc28f426eaa
+      size: 1817
+    outs:
+    - path: data/datasets/sparql_dataset/output/results_db.json
+      md5: 01da48c6eb33f92ed235b2373273ecee
+      size: 5263190
+  extract_properties_from_vital_articles:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_properties_retrieving.py ;
+      PYTHONPATH=. python3 sqqd/pipeline/scripts/run_properties_label_retrieving.py
+    deps:
+    - path: data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+      md5: c61246891434e72d2d2b369f5392e4d0
+      size: 308788
+    - path: sqqd/pipeline/scripts/run_properties_label_retrieving.py
+      md5: 0ace49c163fb182cad9f8424fc088746
+      size: 1492
+    - path: sqqd/pipeline/scripts/run_properties_retrieving.py
+      md5: f3def9d575f2ab820477fdb3b18fb42e
+      size: 1701
+    outs:
+    - path: data/datasets/sparql_dataset/properties/all_properties.json
+      md5: 08233ee6c9efec4160f978672f65e0e6
+      size: 14573
+    - path: data/datasets/sparql_dataset/properties/property_labels.json
+      md5: 5528abcfed8923d169b5a4f17f1db9b6
+      size: 9030
+  retrieve_vital_article_ids:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_entity_retrieving.py
+    deps:
+    - path: data/datasets/sparql_dataset/vital_articles/vital_articles_level_4.csv
+      md5: c1fc16fc96940ce73b123744b0605a1f
+      size: 593175
+    - path: sqqd/pipeline/scripts/run_entity_retrieving.py
+      md5: 3b37d1706d2b084e70af2692a35d0b08
+      size: 2469
+    outs:
+    - path: data/datasets/sparql_dataset/entities/vital_articles_level_4.json
+      md5: c61246891434e72d2d2b369f5392e4d0
+      size: 308788
+  run_entity_linking_titles_extraction@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking.py --iteration
+      0
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/0/input.json
+      md5: 3e8896d0db9f7240138c4f2bf68c05eb
+      size: 1316593
+    - path: gqqd/pipeline/scripts/run_entity_linking.py
+      md5: 848aedc157088132c449915e20a02ec0
+      size: 4968
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/0/entity_linking_results.json
+      md5: 59cbc1b56c30f60e270a7d2fa6ab6616
+      size: 339322
+  run_wikidata_ids_retrieval@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_id_retrieving.py
+      --iteration 0
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/0/input.json
+      md5: 3e8896d0db9f7240138c4f2bf68c05eb
+      size: 1316593
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/0/entity_linking_results.json
+      md5: 59cbc1b56c30f60e270a7d2fa6ab6616
+      size: 339322
+    - path: gqqd/pipeline/scripts/run_wikidata_id_retrieving.py
+      md5: 9e274fa9e15e4615ba206c955ee20786
+      size: 4195
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/processed/0/titles_and_ids.json
+      md5: 29e093fd198c5967a52c8456ce7eb69e
+      size: 346529
+  run_entity_linking_output_merge@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_merge.py --iteration
+      0
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/0/input.json
+      md5: 3e8896d0db9f7240138c4f2bf68c05eb
+      size: 1316593
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/0/entity_linking_results.json
+      md5: 59cbc1b56c30f60e270a7d2fa6ab6616
+      size: 339322
+    - path: data/datasets/suggestion_dataset/entity_linking/processed/0/titles_and_ids.json
+      md5: 29e093fd198c5967a52c8456ce7eb69e
+      size: 346529
+    - path: gqqd/pipeline/scripts/run_entity_linking_merge.py
+      md5: 24337418c849ea64155caeb3f1e136d5
+      size: 4341
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/output/0/output.json
+      md5: 6b43c4995d1a22a933788ce9343f4833
+      size: 1970178
+  run_entity_linking_verification_preparation@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py
+      --iteration 0 --annotator 0.5 --annotator 0.5
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/output/0/output.json
+      md5: 6b43c4995d1a22a933788ce9343f4833
+      size: 1970178
+    - path: gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py
+      md5: e6184ec64445e6a9d2c7e912620a31ff
+      size: 4321
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/input/0
+      md5: 7fc66d283fe07faaa0cfb2887c0a67c3.dir
+      size: 726866
+      nfiles: 2
+  inforex_output_verification_preparation@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py  --inforex-iteration
+      1 --annotator 0.5 --annotator 0.5
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+    - path: data/datasets/suggestion_dataset/results/annotated/inforex/inforex_export_904
+      md5: be6566393a397ff1c91ae7d90455df80.dir
+      size: 19929133
+      nfiles: 52633
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+      md5: a346b66b3a30f2df5456baba03c2a3a6
+      size: 26172954
+    - path: data/datasets/suggestion_dataset/wiki_content/db_fixed.json
+      md5: 38c8f5d4bd729b7d108f5d1d1bc599c0
+      size: 512949823
+    - path: gqqd/pipeline/scripts/run_kbqa_inforex_output_verification_preparation.py
+      md5: cb5f9504e14a1d9c9c04d8a7d0597d56
+      size: 6392
+    outs:
+    - path: data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/1
+      md5: 99a66fe78fd73aed796f70b6c4c1365d.dir
+      size: 6642808
+      nfiles: 2
+  prepare_verified_data_for_entity_linking@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+      --inforex-output-iteration 1
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_output_verification/1_verified
+      md5: 999254b71372db9805fe2163af9acbcf.dir
+      size: 5126557
+      nfiles: 2
+    - path: gqqd/pipeline/scripts/run_prepare_verified_data_for_entity_linking.py
+      md5: 12614c4162e91a10e6d90324af039358
+      size: 5214
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/1/input.json
+      md5: e9338d8af88b331fd0fb453d9c7def33
+      size: 3617266
+  run_entity_linking_titles_extraction@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking.py --iteration
+      1
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/1/input.json
+      md5: e9338d8af88b331fd0fb453d9c7def33
+      size: 3617266
+    - path: gqqd/pipeline/scripts/run_entity_linking.py
+      md5: 848aedc157088132c449915e20a02ec0
+      size: 4968
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/1/entity_linking_results.json
+      md5: 1779952f889881077b4355efdeaff072
+      size: 943927
+  run_wikidata_ids_retrieval@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_id_retrieving.py
+      --iteration 1
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/1/input.json
+      md5: e9338d8af88b331fd0fb453d9c7def33
+      size: 3617266
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/1/entity_linking_results.json
+      md5: 1779952f889881077b4355efdeaff072
+      size: 943927
+    - path: gqqd/pipeline/scripts/run_wikidata_id_retrieving.py
+      md5: 9e274fa9e15e4615ba206c955ee20786
+      size: 4195
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/processed/1/titles_and_ids.json
+      md5: f43636a7c7ee1ad5c7341c635541c521
+      size: 736505
+  run_entity_linking_output_merge@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_merge.py --iteration
+      1
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/input/1/input.json
+      md5: e9338d8af88b331fd0fb453d9c7def33
+      size: 3617266
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/processed/1/entity_linking_results.json
+      md5: 1779952f889881077b4355efdeaff072
+      size: 943927
+    - path: data/datasets/suggestion_dataset/entity_linking/processed/1/titles_and_ids.json
+      md5: f43636a7c7ee1ad5c7341c635541c521
+      size: 736505
+    - path: gqqd/pipeline/scripts/run_entity_linking_merge.py
+      md5: 24337418c849ea64155caeb3f1e136d5
+      size: 4341
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/output/1/output.json
+      md5: 2a0cdf8ed892b83376ee592fb62770fd
+      size: 5429661
+  run_entity_linking_verification_preparation@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py
+      --iteration 1 --annotator 0.5 --annotator 0.5
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/output/1/output.json
+      md5: 2a0cdf8ed892b83376ee592fb62770fd
+      size: 5429661
+    - path: gqqd/pipeline/scripts/run_entity_linking_verification_preparation.py
+      md5: e6184ec64445e6a9d2c7e912620a31ff
+      size: 4321
+    outs:
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/input/1
+      md5: 632c9e37283f4fc98a7128c1d35bddde.dir
+      size: 1978904
+      nfiles: 2
+  run_final_kbqa_construction:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_final_kbqa_construction.py
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/output/0
+      md5: 4aa0eb3a5a479aec45e0e3fc8405a63f.dir
+      size: 281995
+      nfiles: 2
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/output/1
+      md5: e9bb489f5f68703fa26fb91d3229651c.dir
+      size: 782567
+      nfiles: 2
+    - path: data/datasets/suggestion_dataset/entity_linking/output/0/output.json
+      md5: 6b43c4995d1a22a933788ce9343f4833
+      size: 1970178
+    - path: data/datasets/suggestion_dataset/entity_linking/output/1/output.json
+      md5: 2a0cdf8ed892b83376ee592fb62770fd
+      size: 5429661
+    - path: gqqd/pipeline/scripts/run_final_kbqa_construction.py
+      md5: bc0657bd794fb3ac55c573a19cd66245
+      size: 3538
+    outs:
+    - path: data/datasets/suggestion_dataset/final/kbqa_unlabeled.json
+      md5: 18afe003d3e80a0dc1d3487891773390
+      size: 1855868
+  run_manual_correction_preparation:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_manual_correction_preparation.py
+    deps:
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/output/0
+      md5: 4aa0eb3a5a479aec45e0e3fc8405a63f.dir
+      size: 281995
+      nfiles: 2
+    - path: data/datasets/suggestion_dataset/entity_linking/annotation/output/1
+      md5: e9bb489f5f68703fa26fb91d3229651c.dir
+      size: 782567
+      nfiles: 2
+    - path: gqqd/pipeline/scripts/run_manual_correction_preparation.py
+      md5: ceac6b83e7c90f58acee4acabd31df17
+      size: 2202
+    outs:
+    - path: 
+        data/datasets/suggestion_dataset/entity_linking/annotation/correction/to_correct.csv
+      md5: 0b4147ca10caadb20b475465db734d6c
+      size: 61693
+  construct_sparql_dataset_for_annotation:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_annotation_preparation.py
+    deps:
+    - path: data/datasets/sparql_dataset/output/results_db.json
+      md5: 01da48c6eb33f92ed235b2373273ecee
+      size: 5263190
+    - path: sqqd/pipeline/scripts/run_annotation_preparation.py
+      md5: 7bd39a38de4637a29d619f83a1261314
+      size: 1188
+    outs:
+    - path: data/datasets/sparql_dataset/annotation/db.json
+      md5: dce65789876c036e16ff2dd0bf681b3b
+      size: 2223253
+  extract_annotated_questions:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_annotation_extraction.py
+    deps:
+    - path: data/datasets/sparql_dataset/annotation/annotated_db.json
+      md5: fe08acec1bcf1666abe5b96ff3bee54f
+      size: 2202010
+    - path: sqqd/pipeline/scripts/run_annotation_extraction.py
+      md5: 95cd617744506a4772a969332a6a749a
+      size: 1158
+    outs:
+    - path: data/datasets/sparql_dataset/output/results_db_filtered.json
+      md5: 39fd39ddb7bce8f8ef1dd64f8df791dd
+      size: 1753832
+  run_final_kbqa_labeling:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_label_final_kbqa.py
+    deps:
+    - path: data/datasets/suggestion_dataset/final/kbqa_unlabeled.json
+      md5: 18afe003d3e80a0dc1d3487891773390
+      size: 1855868
+    - path: gqqd/pipeline/scripts/run_label_final_kbqa.py
+      md5: e3cdcba560394d0a967c044a29deb3aa
+      size: 2014
+    outs:
+    - path: data/datasets/suggestion_dataset/final/kbqa_labeled.json
+      md5: 49154d46366731d8da6c51d7e21ac40c
+      size: 1868292
+  run_final_kbqa_sparql_construction:
+    cmd: PYTHONPATH=. python3 sqqd/pipeline/scripts/run_final_construction.py
+    deps:
+    - path: data/datasets/sparql_dataset/output/results_db_filtered.json
+      md5: 39fd39ddb7bce8f8ef1dd64f8df791dd
+      size: 1753832
+    - path: sqqd/pipeline/scripts/run_final_construction.py
+      md5: 005f898197b7bd58748ce73098e138ca
+      size: 1762
+    outs:
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+  run_split:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_split.py
+    deps:
+    - path: data/datasets/suggestion_dataset/final/kbqa_labeled.json
+      md5: 49154d46366731d8da6c51d7e21ac40c
+      size: 1868292
+    - path: gqqd/pipeline/scripts/run_split.py
+      md5: 88037e147596bb95daffd63dc9851fd9
+      size: 764
+    outs:
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+  baseline_kbqa_embed:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/embed.py
+    deps:
+    - path: baselines/kbqa/scripts/embed.py
+      md5: a454cec3b2c94eb92167c81a0af1e175
+      size: 1864
+    - path: data/baselines/kbqa/properties.csv
+      md5: 405ec9e829dd37fc5a35b900433118a9
+      size: 798681
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      md5: c30ac25f17aa14d5600b75c18095542b
+      size: 2847509
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      md5: 3e4184a02d8ea4d8b0296cf277633258
+      size: 11371352
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      md5: 306251406186d406646e3c35fef6048f
+      size: 1741674
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      md5: 493e13c7ad63754ec903c06c3f13100d
+      size: 6951789
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      md5: 3224d3f612117c4460f1b51397693bd9
+      size: 4444517035
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+      md5: 995b2834f840a3c5aa6ffff14104104c
+      size: 20987577003
+  run_wikidata_dump_filtering_hop_0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      --hop 0
+    deps:
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    - path: gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      md5: 4258c9f903112fe91cba4b7dc31bc434
+      size: 3230
+    outs:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_0.json
+      md5: 3336160a9e596dd91e406afb2435675d
+      size: 573455924
+  run_wikidata_graph_construction@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      --hop 0
+    deps:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_0.json
+      md5: 3336160a9e596dd91e406afb2435675d
+      size: 573455924
+    - path: gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      md5: 904a1eac83e370c5ba232506ced2f28f
+      size: 3510
+    outs:
+    - path: data/wikidata/graphs/hop_0
+      md5: c878b1d2d899d09d41f07879a0a9e38c.dir
+      size: 33796871
+      nfiles: 7
+  run_wikidata_dump_filtering_hop_1_2@0:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      --hop 1
+    deps:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_0.json
+      md5: 3336160a9e596dd91e406afb2435675d
+      size: 573455924
+    - path: gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      md5: 4258c9f903112fe91cba4b7dc31bc434
+      size: 3230
+    outs:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_1.json
+      md5: 038fe8a30807e2f3c1e127fc5e9f85bb
+      size: 3610660924
+  run_wikidata_graph_construction@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      --hop 1
+    deps:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_1.json
+      md5: 038fe8a30807e2f3c1e127fc5e9f85bb
+      size: 3610660924
+    - path: gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      md5: 904a1eac83e370c5ba232506ced2f28f
+      size: 3510
+    outs:
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+  run_wikidata_dump_filtering_hop_1_2@1:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      --hop 2
+    deps:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_1.json
+      md5: 038fe8a30807e2f3c1e127fc5e9f85bb
+      size: 3610660924
+    - path: gqqd/pipeline/scripts/run_wikidata_dump_filtering.py
+      md5: 4258c9f903112fe91cba4b7dc31bc434
+      size: 3230
+    outs:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_2.json
+      md5: 542daf0bdfc94a14ffb88a37a89dbb15
+      size: 13090750674
+  run_wikidata_graph_construction@2:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      --hop 2
+    deps:
+    - path: data/wikidata/dumps/filtered/filtered_entities_hop_2.json
+      md5: 542daf0bdfc94a14ffb88a37a89dbb15
+      size: 13090750674
+    - path: gqqd/pipeline/scripts/run_wikidata_graph_construction.py
+      md5: 904a1eac83e370c5ba232506ced2f28f
+      size: 3510
+    outs:
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+  baseline_kbqa_predict_noknowledge@1:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_template-based
+      --model gpt-3.5-turbo --predictor-mode noknowledge
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_template-based/retriever_hop_None/k_None/config.json
+      md5: d71080d72a35bdc11811cdb995376e65
+      size: 177
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_template-based/retriever_hop_None/k_None/test.json
+      md5: 5bfab97d02980b7296ca221cf1673c4e
+      size: 524676
+  baseline_kbqa_predict_knowledge@0:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_natural
+      --model gpt-3.5-turbo --predictor-mode knowledge --graph-hop 1 --retriever-hop
+      3 --k 40
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_natural/retriever_hop_3/k_40/config.json
+      md5: 33e4850ea5981cf43c396ac80683b7dc
+      size: 160
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_natural/retriever_hop_3/k_40/test.json
+      md5: 5a8265a7acfa6b08532e39c53292c681
+      size: 718193
+  baseline_kbqa_predict_knowledge@2:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_template-based
+      --model gpt-3.5-turbo --predictor-mode knowledge --graph-hop 1 --retriever-hop
+      3 --k 40
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_template-based/retriever_hop_3/k_40/config.json
+      md5: 3a9fd7d4e57262d368f1b5fc8453db08
+      size: 167
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_template-based/retriever_hop_3/k_40/test.json
+      md5: de2c3da295afcb293f84803bcefc4e1d
+      size: 424470
+  baseline_kbqa_predict_knowledge@1:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_natural
+      --model gpt-3.5-turbo --predictor-mode knowledge --graph-hop 2 --retriever-hop
+      2 --k 40
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_natural/retriever_hop_2/k_40/config.json
+      md5: 169f217e94aa9d33649355286404c5f7
+      size: 160
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_natural/retriever_hop_2/k_40/test.json
+      md5: 2b964e14ffdc33fdb40ebec02c1487ea
+      size: 720742
+  baseline_kbqa_predict_noknowledge@0:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_natural
+      --model gpt-3.5-turbo --predictor-mode noknowledge
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_natural/retriever_hop_None/k_None/config.json
+      md5: e4206d1ab898bbf25f27a139c48429ac
+      size: 170
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_natural/retriever_hop_None/k_None/test.json
+      md5: 89490b64f627c4c8962bd76cdd4b1174
+      size: 1108544
+  baseline_kbqa_predict_knowledge@3:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/predict.py --dataset-name kbqa_template-based
+      --model gpt-3.5-turbo --predictor-mode knowledge --graph-hop 2 --retriever-hop
+      2 --k 40
+    deps:
+    - path: baselines/kbqa/scripts/predict.py
+      md5: c2febb4f9645b5c9327e931d094684e4
+      size: 3266
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    outs:
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_template-based/retriever_hop_2/k_40/config.json
+      md5: c83647347cf9817b10fe8fd0725afdb1
+      size: 167
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_template-based/retriever_hop_2/k_40/test.json
+      md5: aaded6c82e6034a08b6892a8f05c2c07
+      size: 427759
+  retrieve_subgraphs@3:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/retrieve_subgraphs.py --dataset-name
+      kbqa_template-based --subset test --graph-hop 2 --retriever-hop 2 --k 40 --workers
+      15
+    deps:
+    - path: baselines/kbqa/scripts/retrieve_subgraphs.py
+      md5: 0295bc07400618a51bf3109efab25d32
+      size: 2874
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      md5: c30ac25f17aa14d5600b75c18095542b
+      size: 2847509
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      md5: 3e4184a02d8ea4d8b0296cf277633258
+      size: 11371352
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      md5: 306251406186d406646e3c35fef6048f
+      size: 1741674
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      md5: 493e13c7ad63754ec903c06c3f13100d
+      size: 6951789
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      md5: 3224d3f612117c4460f1b51397693bd9
+      size: 4444517035
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+      md5: 995b2834f840a3c5aa6ffff14104104c
+      size: 20987577003
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+    outs:
+    - path: 
+        data/baselines/kbqa/subgraphs/graph_hop_2/kbqa_template-based/retriever_hop_2/k_40/test.json
+      md5: 2cae03ec615443b030e0592e8bd4eebf
+      size: 1040276
+  retrieve_subgraphs@1:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/retrieve_subgraphs.py --dataset-name
+      kbqa_natural --subset test --graph-hop 2 --retriever-hop 2 --k 40 --workers
+      15
+    deps:
+    - path: baselines/kbqa/scripts/retrieve_subgraphs.py
+      md5: 0295bc07400618a51bf3109efab25d32
+      size: 2874
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      md5: c30ac25f17aa14d5600b75c18095542b
+      size: 2847509
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      md5: 3e4184a02d8ea4d8b0296cf277633258
+      size: 11371352
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      md5: 306251406186d406646e3c35fef6048f
+      size: 1741674
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      md5: 493e13c7ad63754ec903c06c3f13100d
+      size: 6951789
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      md5: 3224d3f612117c4460f1b51397693bd9
+      size: 4444517035
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+      md5: 995b2834f840a3c5aa6ffff14104104c
+      size: 20987577003
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+    outs:
+    - path: 
+        data/baselines/kbqa/subgraphs/graph_hop_2/kbqa_natural/retriever_hop_2/k_40/test.json
+      md5: 3c1c62cc9b4ccb7204dec1d3125e2528
+      size: 1689334
+  retrieve_subgraphs@2:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/retrieve_subgraphs.py --dataset-name
+      kbqa_template-based --subset test --graph-hop 1 --retriever-hop 3 --k 40 --workers
+      15
+    deps:
+    - path: baselines/kbqa/scripts/retrieve_subgraphs.py
+      md5: 0295bc07400618a51bf3109efab25d32
+      size: 2874
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      md5: c30ac25f17aa14d5600b75c18095542b
+      size: 2847509
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      md5: 3e4184a02d8ea4d8b0296cf277633258
+      size: 11371352
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      md5: 306251406186d406646e3c35fef6048f
+      size: 1741674
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      md5: 493e13c7ad63754ec903c06c3f13100d
+      size: 6951789
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      md5: 3224d3f612117c4460f1b51397693bd9
+      size: 4444517035
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+      md5: 995b2834f840a3c5aa6ffff14104104c
+      size: 20987577003
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+    outs:
+    - path: 
+        data/baselines/kbqa/subgraphs/graph_hop_1/kbqa_template-based/retriever_hop_3/k_40/test.json
+      md5: 313e48793cffd1cb4907a0553d4aa448
+      size: 1038572
+  retrieve_subgraphs@0:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/retrieve_subgraphs.py --dataset-name
+      kbqa_natural --subset test --graph-hop 1 --retriever-hop 3 --k 40 --workers
+      15
+    deps:
+    - path: baselines/kbqa/scripts/retrieve_subgraphs.py
+      md5: 0295bc07400618a51bf3109efab25d32
+      size: 2874
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_test.pt
+      md5: c30ac25f17aa14d5600b75c18095542b
+      size: 2847509
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_natural_train.pt
+      md5: 3e4184a02d8ea4d8b0296cf277633258
+      size: 11371352
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_test.pt
+      md5: 306251406186d406646e3c35fef6048f
+      size: 1741674
+    - path: data/baselines/kbqa/embeddings/emb_kbqa_template-based_train.pt
+      md5: 493e13c7ad63754ec903c06c3f13100d
+      size: 6951789
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_1.pt
+      md5: 3224d3f612117c4460f1b51397693bd9
+      size: 4444517035
+    - path: data/baselines/kbqa/embeddings/emb_triples_hop_2.pt
+      md5: 995b2834f840a3c5aa6ffff14104104c
+      size: 20987577003
+    - path: data/datasets/final/kbqa/kbqa_natural
+      md5: 98350f8699de860e3f52e76f60674138.dir
+      size: 898336
+      nfiles: 2
+    - path: data/datasets/final/kbqa/kbqa_template-based
+      md5: 87321f7158b72a12fe4875879cf6147d.dir
+      size: 1086889
+      nfiles: 2
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+    outs:
+    - path: 
+        data/baselines/kbqa/subgraphs/graph_hop_1/kbqa_natural/retriever_hop_3/k_40/test.json
+      md5: 0d6a0e0cf020f10ba7fc1aa600709260
+      size: 1728616
+  baseline_kbqa_evaluate:
+    cmd: PYTHONPATH=. python3 baselines/kbqa/scripts/evaluate.py
+    deps:
+    - path: baselines/kbqa/scripts/evaluate.py
+      md5: 7b2ab7f03ee26699d39d54e4b9e17fbe
+      size: 3494
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_natural/retriever_hop_3/k_40/test.json
+      md5: 5a8265a7acfa6b08532e39c53292c681
+      size: 718193
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_1/gpt-3.5-turbo/kbqa_template-based/retriever_hop_3/k_40/test.json
+      md5: de2c3da295afcb293f84803bcefc4e1d
+      size: 424470
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_natural/retriever_hop_2/k_40/test.json
+      md5: 2b964e14ffdc33fdb40ebec02c1487ea
+      size: 720742
+    - path: 
+        data/baselines/kbqa/predictions/knowledge/graph_hop_2/gpt-3.5-turbo/kbqa_template-based/retriever_hop_2/k_40/test.json
+      md5: aaded6c82e6034a08b6892a8f05c2c07
+      size: 427759
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_natural/retriever_hop_None/k_None/test.json
+      md5: 89490b64f627c4c8962bd76cdd4b1174
+      size: 1108544
+    - path: 
+        data/baselines/kbqa/predictions/noknowledge/graph_hop_None/gpt-3.5-turbo/kbqa_template-based/retriever_hop_None/k_None/test.json
+      md5: 5bfab97d02980b7296ca221cf1673c4e
+      size: 524676
+    outs:
+    - path: data/baselines/kbqa/results/final_results.tex
+      md5: ffc0fc3c512b2a61ac38e2ea28527e99
+      size: 911
+  prepare_mrc_dataset:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_mrc_dataset.py
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      hash: md5
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+    outs:
+    - path: data/datasets/final/mrc/test.json
+      hash: md5
+      md5: cc0b670c4171734898de3e2ac9dfa73d
+      size: 1944605
+    - path: data/datasets/final/mrc/train.json
+      hash: md5
+      md5: 40f13f2124372c8ff5f0ef477b4386bd
+      size: 7813161
+    - path: data/datasets/mrc_dataset/mrc_dataset.json
+      hash: md5
+      md5: 6dada42579278852c3d872e6d54ad6e6
+      size: 10393012
+  prepare_ir_passages:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_negative_ir_passages.py
+    deps:
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/gpt_auto_annotated_iteration_0.json
+      hash: md5
+      md5: 7efad0ea1ba0837dd674653348207e0c
+      size: 58394451
+    - path: data/datasets/suggestion_dataset/results/annotated/inforex/inforex_export_904
+      hash: md5
+      md5: be6566393a397ff1c91ae7d90455df80.dir
+      size: 19929133
+      nfiles: 52633
+    - path: 
+        data/datasets/suggestion_dataset/results/annotated/inforex_input_iteration_0.json
+      hash: md5
+      md5: a346b66b3a30f2df5456baba03c2a3a6
+      size: 26172954
+    outs:
+    - path: data/datasets/ir_dataset/all_passages.jsonl
+      hash: md5
+      md5: 6640d066e697d0d610584cd82b8ccece
+      size: 302095282
+  prepare_ir_dataset:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_prepare_ir_dataset.py
+    deps:
+    - path: data/datasets/ir_dataset/all_passages.jsonl
+      hash: md5
+      md5: 6640d066e697d0d610584cd82b8ccece
+      size: 302095282
+    - path: data/datasets/mrc_dataset/mrc_dataset.json
+      hash: md5
+      md5: 6dada42579278852c3d872e6d54ad6e6
+      size: 10393012
+    outs:
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    - path: data/datasets/ir_dataset/corpus_full.jsonl
+      hash: md5
+      md5: f20873c652b783a1632a28d8185f3750
+      size: 311323012
+    - path: data/datasets/ir_dataset/corpus_small.jsonl
+      hash: md5
+      md5: fa555a88df2a549fcef6a568096ddf14
+      size: 7228474
+  prepare_final_ir_corpus:
+    cmd: PYTHONPATH=. python3 gqqd/pipeline/scripts/run_filter_ir_corpus.py
+    deps:
+    - path: data/datasets/ir_dataset/corpus_full.jsonl
+      hash: md5
+      md5: f20873c652b783a1632a28d8185f3750
+      size: 311323012
+    outs:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+  baseline_ir_retriever_evaluate@0:
+    cmd: 'PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py --model_name
+      intfloat/multilingual-e5-base --query_prefix intfloat/multilingual-e5-base --passage_prefix
+      passage: '
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/retriever_multilingual-e5-base
+      hash: md5
+      md5: 32fcd65561df4fb4eca8431ea4ce30dd
+      size: 429
+  baseline_ir_retriever_evaluate@1:
+    cmd: 'PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py --model_name
+      intfloat/multilingual-e5-large --query_prefix intfloat/multilingual-e5-large
+      --passage_prefix passage: '
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/retriever_multilingual-e5-large
+      hash: md5
+      md5: 5c4fbfc96977014c8b2a79378d11839e
+      size: 428
+  baseline_ir_retriever_evaluate@2:
+    cmd: 'PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py --model_name
+      sdadas/mmlw-retrieval-roberta-base --query_prefix sdadas/mmlw-retrieval-roberta-base
+      --passage_prefix '
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/retriever_mmlw-retrieval-roberta-base
+      hash: md5
+      md5: c8c52b144a04a5052933e39807ed92f4
+      size: 434
+  baseline_ir_retriever_evaluate@3:
+    cmd: 'PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py --model_name
+      sdadas/mmlw-retrieval-roberta-large --query_prefix sdadas/mmlw-retrieval-roberta-large
+      --passage_prefix '
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/retriever_mmlw-retrieval-roberta-large
+      hash: md5
+      md5: cf113406aa278d6f75733741e487f1b8
+      size: 433
+  baseline_ir_retriever_evaluate@4:
+    cmd: 'PYTHONPATH=. python3 baselines/ir/scripts/evaluate_retriever.py --model_name
+      ipipan/silver-retriever-base-v1.1 --query_prefix ipipan/silver-retriever-base-v1.1
+      --passage_prefix '
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/retriever_silver-retriever-base-v1.1
+      hash: md5
+      md5: 0664c7067b07037b2db119b6df7c2b0d
+      size: 431
+  baseline_ir_bm25_reranker_evaluate@0:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_reranker.py --model_name
+      clarin-knext/herbert-base-reranker-msmarco
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/BM25_reranker_herbert-base-reranker-msmarco
+      hash: md5
+      md5: 3c105a50f0d7130bf9d4b0434028e4f9
+      size: 441
+  baseline_ir_bm25_reranker_evaluate@1:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_reranker.py --model_name
+      clarin-knext/herbert-large-msmarco
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/BM25_reranker_herbert-large-msmarco
+      hash: md5
+      md5: 80cbdb2ee9fe47042df59be1de94f8a8
+      size: 433
+  baseline_ir_bm25_reranker_evaluate@2:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_reranker.py --model_name
+      sdadas/polish-reranker-base-ranknet
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/BM25_reranker_polish-reranker-base-ranknet
+      hash: md5
+      md5: 1b1738c0b7a85fe1957ca538505872b2
+      size: 435
+  baseline_ir_bm25_reranker_evaluate@3:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_reranker.py --model_name
+      sdadas/polish-reranker-large-ranknet
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/BM25_reranker_polish-reranker-large-ranknet
+      hash: md5
+      md5: 65738e14d68499e4c2044b34189db1a7
+      size: 435
+  baseline_ir_dense_retriever_reranker_evaluate:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_dense_retriever_with_reranker.py
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: 
+        data/baselines/ir/Dense_retriever_multilingual-e5-large_reranker_polish-reranker-large-ranknet
+      hash: md5
+      md5: 63295d16c323251e019d129ed6ab36e9
+      size: 386
+  baseline_ir_bm25_evaluate:
+    cmd: PYTHONPATH=. python3 baselines/ir/scripts/evaluate_bm25.py
+    deps:
+    - path: data/datasets/final/ir/corpus.jsonl
+      hash: md5
+      md5: be45332a9fce888e49ea307f48eb9fd1
+      size: 301448889
+    - path: data/datasets/final/ir/qrels/test.tsv
+      hash: md5
+      md5: 12e227eafdb4eab359894fb06ca4ceb8
+      size: 245086
+    - path: data/datasets/final/ir/queries.jsonl
+      hash: md5
+      md5: 7ec9aaf60737dcd2541722898ddecdfb
+      size: 926843
+    outs:
+    - path: data/baselines/ir/BM25_morfologik
+      hash: md5
+      md5: 83e5e558acbf65112294efbe5f227b98
+      size: 402
+  create_hf_datasets@kbqa:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py kbqa
+    deps:
+    - path: data/datasets/final/kbqa
+      md5: 193bbee02a899504db2f8787ed72098e.dir
+      size: 1985260
+      nfiles: 5
+    - path: data/datasets/huggingface/metadata/kbqa.yaml
+      md5: 8223f537e86fe11349362b428fde61b3
+      size: 353
+    - path: data/datasets/huggingface/readme/README_dataset.md
+      md5: bb39b6f825a7bee8c3d4bc6b95ef815a
+      size: 2239
+    - path: data/datasets/huggingface/readme/config_kbqa.yaml
+      md5: 9a26fcf0ce904870324276896d0090fe
+      size: 463
+    - path: tools/huggingface/run_hf_dataset_creation.py
+      md5: 39adf6818adeeac9ad5461fae6614cd2
+      size: 5706
+    outs:
+    - path: data/datasets/huggingface/kbqa
+      md5: 712f08d2bd2d4567bcc724bbb08f9127.dir
+      size: 1491337
+      nfiles: 5
+  create_hf_general_dataset:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py general
+    deps:
+    - path: data/datasets/final/ir
+      hash: md5
+      md5: 40bb899da3808480a64dade5bc64fca8.dir
+      size: 302620857
+      nfiles: 5
+    - path: data/datasets/final/kbqa
+      md5: 193bbee02a899504db2f8787ed72098e.dir
+      size: 1985260
+      nfiles: 5
+    - path: data/datasets/final/mrc
+      hash: md5
+      md5: 56f43a5c205dddfd3d239e5c67d1d79b.dir
+      size: 9757789
+      nfiles: 3
+    - path: data/datasets/huggingface/metadata/general.yaml
+      hash: md5
+      md5: 7d25fd8c490fcb55d9220cc071050c1a
+      size: 412
+    - path: data/datasets/huggingface/readme/README_dataset.md
+      md5: bb39b6f825a7bee8c3d4bc6b95ef815a
+      size: 2239
+    - path: data/datasets/huggingface/readme/config_general.yaml
+      md5: 078969bf02aea4d6be6f0d4de432eb68
+      size: 785
+    - path: tools/huggingface/run_hf_dataset_creation.py
+      md5: 39adf6818adeeac9ad5461fae6614cd2
+      size: 5706
+    outs:
+    - path: data/datasets/huggingface/general
+      md5: 2e131d74c6b0252a4d33718ce3f3c950.dir
+      size: 315953105
+      nfiles: 10
+  create_hf_datasets@ir:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py ir
+    deps:
+    - path: data/datasets/final/ir
+      hash: md5
+      md5: 40bb899da3808480a64dade5bc64fca8.dir
+      size: 302620857
+      nfiles: 5
+    - path: data/datasets/huggingface/metadata/ir.yaml
+      hash: md5
+      md5: 355f02a5d412704c722123872435819c
+      size: 317
+    - path: data/datasets/huggingface/readme/README_dataset.md
+      md5: bb39b6f825a7bee8c3d4bc6b95ef815a
+      size: 2239
+    - path: data/datasets/huggingface/readme/config_ir.yaml
+      md5: 5f59ff97c2af2f59f39fee3489a4e40e
+      size: 344
+    - path: tools/huggingface/run_hf_dataset_creation.py
+      md5: 39adf6818adeeac9ad5461fae6614cd2
+      size: 5706
+    outs:
+    - path: data/datasets/huggingface/ir
+      md5: b657faeefe319dbdef2f7f3643d2d2b7.dir
+      size: 302626193
+      nfiles: 5
+  create_hf_datasets@mrc:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_creation.py mrc
+    deps:
+    - path: data/datasets/final/mrc
+      hash: md5
+      md5: 56f43a5c205dddfd3d239e5c67d1d79b.dir
+      size: 9757789
+      nfiles: 3
+    - path: data/datasets/huggingface/metadata/mrc.yaml
+      md5: b4251f5914526ab8a126f3c3cc1e7c61
+      size: 315
+    - path: data/datasets/huggingface/readme/README_dataset.md
+      md5: bb39b6f825a7bee8c3d4bc6b95ef815a
+      size: 2239
+    - path: data/datasets/huggingface/readme/config_mrc.yaml
+      md5: 5ae4031ccbfdf9606ed844d32060f3d0
+      size: 165
+    - path: tools/huggingface/run_hf_dataset_creation.py
+      md5: 39adf6818adeeac9ad5461fae6614cd2
+      size: 5706
+    outs:
+    - path: data/datasets/huggingface/mrc
+      md5: 885142c228746d24fcac5d474f98d315.dir
+      size: 11455872
+      nfiles: 3
+  create_hf_kg_dataset:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_kg_dataset_creation.py --hops
+      1 --hops 2
+    deps:
+    - path: data/datasets/huggingface/metadata/kg.yaml
+      md5: e1c31a541aa1aaf3ac3e016f34905318
+      size: 317
+    - path: data/datasets/huggingface/readme/README_kg.md
+      hash: md5
+      md5: ae4daaf02ef50221c6fc0f6e9ecfc415
+      size: 3298
+    - path: data/datasets/huggingface/readme/config_kg.yaml
+      md5: f949ed8c175ef86b02a3d1cee84ba4e2
+      size: 1559
+    - path: data/wikidata/graphs/hop_1
+      md5: bdf53d78513567ae638f43f6a5cce107.dir
+      size: 251568831
+      nfiles: 7
+    - path: data/wikidata/graphs/hop_2
+      md5: 42aa91bef8283efb0a8767d36b8878b9.dir
+      size: 959614707
+      nfiles: 7
+    - path: tools/huggingface/run_hf_kg_dataset_creation.py
+      md5: 9f7f415df2e45de1bd34672b5c64a5c7
+      size: 2650
+    outs:
+    - path: data/datasets/huggingface/kg
+      hash: md5
+      md5: b7ac08e7bcd2cca80e2f6c823acc37b3.dir
+      size: 1069751275
+      nfiles: 15
+  push_hf_datasets@0:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py --dataset kbqa
+      --repo-id clarin-pl/PUGG_KBQA
+    deps:
+    - path: data/datasets/huggingface/kbqa
+      md5: 712f08d2bd2d4567bcc724bbb08f9127.dir
+      size: 1491337
+      nfiles: 5
+    - path: tools/huggingface/run_hf_dataset_push.py
+      md5: 96f9f21d98f85b2ddb37e1e76843a14e
+      size: 593
+  push_hf_datasets@3:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py --dataset general
+      --repo-id clarin-pl/PUGG
+    deps:
+    - path: data/datasets/huggingface/general
+      md5: 2e131d74c6b0252a4d33718ce3f3c950.dir
+      size: 315953105
+      nfiles: 10
+    - path: tools/huggingface/run_hf_dataset_push.py
+      md5: 96f9f21d98f85b2ddb37e1e76843a14e
+      size: 593
+  push_hf_datasets@2:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py --dataset ir
+      --repo-id clarin-pl/PUGG_IR
+    deps:
+    - path: data/datasets/huggingface/ir
+      md5: b657faeefe319dbdef2f7f3643d2d2b7.dir
+      size: 302626193
+      nfiles: 5
+    - path: tools/huggingface/run_hf_dataset_push.py
+      md5: 96f9f21d98f85b2ddb37e1e76843a14e
+      size: 593
+  push_hf_datasets@1:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py --dataset mrc
+      --repo-id clarin-pl/PUGG_MRC
+    deps:
+    - path: data/datasets/huggingface/mrc
+      md5: 885142c228746d24fcac5d474f98d315.dir
+      size: 11455872
+      nfiles: 3
+    - path: tools/huggingface/run_hf_dataset_push.py
+      md5: 96f9f21d98f85b2ddb37e1e76843a14e
+      size: 593
+  push_hf_datasets@4:
+    cmd: PYTHONPATH=. python3 tools/huggingface/run_hf_dataset_push.py --dataset kg
+      --repo-id clarin-pl/PUGG_KG
+    deps:
+    - path: data/datasets/huggingface/kg
+      hash: md5
+      md5: b7ac08e7bcd2cca80e2f6c823acc37b3.dir
+      size: 1069751275
+      nfiles: 15
+    - path: tools/huggingface/run_hf_dataset_push.py
+      md5: 96f9f21d98f85b2ddb37e1e76843a14e
+      size: 593

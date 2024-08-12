@@ -1,0 +1,4 @@
+Model name: sdadas/polish-reranker-large-ranknet
+NDCG: {'NDCG@1': 0.63138, 'NDCG@3': 0.70802, 'NDCG@5': 0.71736, 'NDCG@10': 0.7234, 'NDCG@100': 0.72535, 'NDCG@1000': 0.72535}
+Recall: {'Recall@1': 0.63138, 'Recall@3': 0.76077, 'Recall@5': 0.78346, 'Recall@10': 0.80179, 'Recall@100': 0.80979, 'Recall@1000': 0.80979}
+MRR: {'MRR@1': 0.63138, 'MRR@3': 0.68972, 'MRR@5': 0.6949, 'MRR@10': 0.69746, 'MRR@100': 0.69796, 'MRR@1000': 0.69796}

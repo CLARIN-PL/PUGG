@@ -1,0 +1,4 @@
+outs:
+- md5: 08eba332b3a557efd6bf04a576f6fa83
+  size: 4794
+  path: filtered_property_labels.json

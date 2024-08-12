@@ -1,0 +1,36 @@
+general_pointer: "**(this repository)**"
+usage: |
+  ```python
+  from datasets import load_dataset
+
+  # loading KBQA (all)
+  dataset = load_dataset("clarin-pl/PUGG", "kbqa_all")
+  print(dataset)
+
+  # loading KBQA (natural)
+  dataset = load_dataset("clarin-pl/PUGG", "kbqa_natural")
+  print(dataset)
+
+  # loading KBQA (template-based)
+  dataset = load_dataset("clarin-pl/PUGG", "kbqa_template-based")
+  print(dataset)
+
+  # loading MRC
+
+  dataset = load_dataset("clarin-pl/PUGG", "mrc")
+  print(dataset)
+
+  # loading IR
+
+  ## corpus
+  dataset = load_dataset("clarin-pl/PUGG", "ir_corpus")
+  print(dataset)
+  
+  ## queries
+  dataset = load_dataset("clarin-pl/PUGG", "ir_queries")
+  print(dataset)
+  
+  ## qrels
+  dataset = load_dataset("clarin-pl/PUGG", "ir_qrels")
+  print(dataset)
+  ```

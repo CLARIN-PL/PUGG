@@ -1,0 +1,17 @@
+.install-deps-template: &install-deps |-
+    pip install poetry
+    poetry install -vv
+
+run-check:
+  before_script:
+    - *install-deps
+  script:
+    - poetry run poe check
+  image: python:3.10
+
+run-tests:
+  before_script:
+    - *install-deps
+  script:
+    - poetry run poe test
+  image: python:3.10

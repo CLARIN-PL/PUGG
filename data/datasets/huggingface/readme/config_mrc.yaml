@@ -1,0 +1,8 @@
+mrc_pointer: "**(this repository)**"
+usage: |
+  ```python
+  from datasets import load_dataset
+
+  dataset = load_dataset("clarin-pl/PUGG_MRC")
+  print(dataset)
+  ```

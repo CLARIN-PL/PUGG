@@ -1,0 +1,47 @@
+kg_pointer: "**(this repository)**"
+usage: |
+  ```python
+  from datasets import load_dataset
+
+  dataset_1H_triples = load_dataset("clarin-pl/PUGG_KG", '1H_triples')
+  print(dataset_1H_triples)
+
+  dataset_1H_labels_pl = load_dataset("clarin-pl/PUGG_KG", '1H_labels_pl')
+  print(dataset_1H_labels_pl)
+
+  dataset_1H_labels_en = load_dataset("clarin-pl/PUGG_KG", '1H_labels_en')
+  print(dataset_1H_labels_en)
+
+  dataset_1H_aliases = load_dataset("clarin-pl/PUGG_KG", '1H_aliases')
+  print(dataset_1H_aliases)
+
+  dataset_1H_descriptions = load_dataset("clarin-pl/PUGG_KG", '1H_descriptions')
+  print(dataset_1H_descriptions)
+
+  dataset_1H_attributes = load_dataset("clarin-pl/PUGG_KG", '1H_attributes')
+  print(dataset_1H_attributes)
+
+  dataset_1H_times = load_dataset("clarin-pl/PUGG_KG", '1H_times')
+  print(dataset_1H_times)
+
+  dataset_2H_triples = load_dataset("clarin-pl/PUGG_KG", '2H_triples')
+  print(dataset_2H_triples)
+
+  dataset_2H_labels_pl = load_dataset("clarin-pl/PUGG_KG", '2H_labels_pl')
+  print(dataset_2H_labels_pl)
+
+  dataset_2H_labels_en = load_dataset("clarin-pl/PUGG_KG", '2H_labels_en')
+  print(dataset_2H_labels_en)
+
+  dataset_2H_aliases = load_dataset("clarin-pl/PUGG_KG", '2H_aliases')
+  print(dataset_2H_aliases)
+
+  dataset_2H_descriptions = load_dataset("clarin-pl/PUGG_KG", '2H_descriptions')
+  print(dataset_2H_descriptions)
+
+  dataset_2H_attributes = load_dataset("clarin-pl/PUGG_KG", '2H_attributes')
+  print(dataset_2H_attributes)
+
+  dataset_2H_times = load_dataset("clarin-pl/PUGG_KG", '2H_times')
+  print(dataset_2H_times)
+  ```

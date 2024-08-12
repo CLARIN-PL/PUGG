@@ -1,0 +1,13 @@
+messages:
+  - role: user
+    content: Zmień błędne końcówki wyrazów w pytaniu.  Pamiętaj, że nie wolno zmieniać podstaw słów, zastępować ich synonimami ani dodawać nowych. Nie można zmieniać kolejności słów.
+  - role: assistant
+    content: Jasne, poprawię błędne końcówki wyrazów w pytaniu. Nie będę zmieniał kolejności słów. Nie będę dodawał nowych słów. Nie będę zastępował synonimami.
+  - role: user
+    content: "Czyim dzieci jest Maria Gorecka?"
+  - role: assistant
+    content: "Czyim dzieckiem jest Maria Gorecka?"
+  - role: user
+    content: "Jak nazywał się gmina miejska w Niemczech, który jest miejsce pobytu Adam Mickiewicz?"
+  - role: assistant
+    content: "Jak nazywała się gmina miejska w Niemczech, która była miejscem pobytu Adama Mickiewicza?"

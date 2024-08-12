@@ -1,0 +1,9 @@
+messages:
+  - role: user
+    content: Proszę, przeformułuj następujące pytanie, zachowując jego sens.
+  - role: assistant
+    content: Jasne, zrobię to, nie zmieniając sensu pytania.
+  - role: user
+    content: "Czyim dzieckiem jest Maria Gorecka?"
+  - role: assistant
+    content: "Kim są rodzice Marii Goreckiej?"

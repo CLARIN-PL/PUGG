@@ -1,0 +1,12 @@
+name: reranker
+channels:
+  - pytorch
+  - defaults
+dependencies:
+   - python=3.9
+   - faiss-gpu=1.7.3
+   - pip:
+     - transformers==4.6.1
+     - typer==0.7.0
+     - protobuf==3.20.0
+     - git+https://github.com/castorini/pygaggle@84232218b12db227a64a987cddfa959b0900382f

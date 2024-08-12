@@ -1,0 +1,4 @@
+final_message_schema: "Poniżej znajdują się fakty w postaci trójek grafu wiedzy w formacie\
+                       \ (encja, relacja, encja), mające znaczenie\
+                       \ do udzielenia odpowiedzi na pytanie.\n{triples}\nPytanie: {question}\
+                       \ \nEncje które są odpowiedzią: "

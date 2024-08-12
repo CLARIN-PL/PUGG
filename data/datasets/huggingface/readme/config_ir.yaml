@@ -1,0 +1,14 @@
+ir_pointer: "**(this repository)**"
+usage: |
+  ```python
+  from datasets import load_dataset
+  
+  dataset_corpus = load_dataset("clarin-pl/PUGG_IR", "corpus")
+  print(dataset)
+
+  dataset_queries = load_dataset("clarin-pl/PUGG_IR", "queries")
+  print(dataset)
+
+  dataset_qrels = load_dataset("clarin-pl/PUGG_IR", "qrels")
+  print(dataset)
+  ```

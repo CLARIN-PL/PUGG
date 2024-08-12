@@ -1,0 +1,21 @@
+kbqa_pointer: "**(this repository)**"
+usage: |
+  ```python
+  from datasets import load_dataset
+
+  # loading all
+  
+  dataset = load_dataset("clarin-pl/PUGG_KBQA")
+  # or
+  dataset = load_dataset("clarin-pl/PUGG_KBQA", "all")
+  
+  print(dataset)
+  
+  # loading natural
+  dataset = load_dataset("clarin-pl/PUGG_KBQA", "natural")
+  print(dataset)
+  
+  # loading template-based
+  dataset = load_dataset("clarin-pl/PUGG_KBQA", "template-based")
+  print(dataset)
+  ```

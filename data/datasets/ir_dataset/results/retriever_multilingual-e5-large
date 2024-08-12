@@ -1,0 +1,4 @@
+Model name: intfloat/multilingual-e5-large
+NDCG: {'NDCG@1': 0.55516, 'NDCG@3': 0.6705, 'NDCG@5': 0.69671, 'NDCG@10': 0.7179, 'NDCG@100': 0.73769, 'NDCG@1000': 0.7406}
+Recall: {'Recall@1': 0.55516, 'Recall@3': 0.75132, 'Recall@5': 0.81476, 'Recall@10': 0.88014, 'Recall@100': 0.97104, 'Recall@1000': 0.99379}
+MRR: {'MRR@1': 0.55516, 'MRR@3': 0.64252, 'MRR@5': 0.65712, 'MRR@10': 0.66588, 'MRR@100': 0.67012, 'MRR@1000': 0.67024}

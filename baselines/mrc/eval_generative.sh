@@ -1,0 +1,12 @@
+python3 hf_qa/qa_eval_generative.py \
+--model_name_or_path allegro/plt5-base \
+--use_auth_token False \
+--do_predict True \
+--do_train True \
+--output_dir data/baselines/mrc/models/plt5-base-pugg-mrc \
+--overwrite_output_dir True \
+--test_file data/datasets/final/mrc/test.json \
+--train_file data/datasets/final/mrc/train.json \
+--answer_column answer \
+--question_column question \
+--predict_with_generate True

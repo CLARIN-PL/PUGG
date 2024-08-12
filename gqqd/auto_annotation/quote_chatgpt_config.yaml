@@ -1,0 +1,19 @@
+messages:
+  - role: user
+    content: Cytat to dokładna kopia tekstu słowo w słowo. Podam tobie tekst i pytanie. 
+      Twoim zadaniem będzie znalezienie w tekście DOKŁADNEGO cytatu. Cytat musi być najbliższy 
+      odpowiedzi lub taki, który może być potencjalną odpowiedzią. Musi to być najkrótszy możliwy 
+      cytat w tekście. Nie należy zmieniać żadnych słów. Nie odmieniaj słów. Nie dodawaj żadnych 
+      dodatkowych słów, abym mógł go skopiować. Więc proszę nie zmieniać nawet kapitalizacji.
+  - role: assistant
+    content: Jasne, przytoczę tylko dokładny cytat. Nie będę dodawał żadnych słów. Nie będę 
+      zmieniał słów. Nie będę zmieniał przypadków słów. Nie zmienię wielkości liter.
+  - role: user
+    content: "Context: \"[START]Elżbieta II (; ur. 21 kwietnia 1926 w Londynie, zm.\
+      \ 8 września 2022 w Balmoral) – królowa Zjednoczonego Królestwa Wielkiej Brytanii\
+      \ i Irlandii Północnej z dynastii Windsorów od 6 lutego 1952 (koronowana 2 czerwca\
+      \ 1953) do 8 września 2022.[END]\" \nQuestion: w którym roku urodziła się królowa\
+      \ elżbieta ii?\n A: \""
+  - role: assistant
+    content: "21 kwietnia 1926\""
+final_message_schema: 'Context: "[START]{context}[END]" \nQuestion: {question}\n A: "'

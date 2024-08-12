@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  elasticsearch:
+    image: elasticsearch:7.10.2
+    command: bash -c "bin/elasticsearch-plugin install pl.allegro.tech.elasticsearch.plugin:elasticsearch-analysis-morfologik:7.10.2; docker-entrypoint.sh elasticsearch"
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    volumes:
+      - type: bind
+        source: /.../elastic_data
+        target: /usr/share/elasticsearch/data
+    ports:
+      - 9200:9200

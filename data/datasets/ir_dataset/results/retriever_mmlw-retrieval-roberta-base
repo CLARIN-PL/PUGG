@@ -1,0 +1,4 @@
+Model name: sdadas/mmlw-retrieval-roberta-base
+NDCG: {'NDCG@1': 0.46598, 'NDCG@3': 0.57567, 'NDCG@5': 0.60457, 'NDCG@10': 0.62854, 'NDCG@100': 0.65452, 'NDCG@1000': 0.66106}
+Recall: {'Recall@1': 0.46598, 'Recall@3': 0.65307, 'Recall@5': 0.72328, 'Recall@10': 0.79683, 'Recall@100': 0.91829, 'Recall@1000': 0.97001}
+MRR: {'MRR@1': 0.46598, 'MRR@3': 0.5489, 'MRR@5': 0.56492, 'MRR@10': 0.57493, 'MRR@100': 0.58027, 'MRR@1000': 0.58051}

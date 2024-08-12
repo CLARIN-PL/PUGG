@@ -1,0 +1,2 @@
+final_message_schema: "Pytanie: {question}\
+                       \ \nEncje które są odpowiedzią: "
