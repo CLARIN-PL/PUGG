@@ -28,7 +28,7 @@ The paper was accepted for ACL 2024 (findings).
 
 The PUGG dataset is available in the following repositories:
 
-* [General](https://huggingface.co/datasets/clarin-pl/PUGG_KBQA) - contains all tasks (KBQA, MRC, IR*)
+* [General](https://huggingface.co/datasets/clarin-pl/PUGG) - contains all tasks (KBQA, MRC, IR*)
 
 For more straightforward usage, the tasks are also available in separate repositories:
 
